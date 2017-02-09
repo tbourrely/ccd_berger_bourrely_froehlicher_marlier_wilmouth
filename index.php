@@ -3,6 +3,7 @@ use charly\DatabaseFactory;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 use charly\controllers\GroupeController;
+use charly\controllers\ValidationController;
 
 // Demarrage de la session
 session_start();
@@ -68,10 +69,12 @@ $app->add($container->get('csrf'));
 // Ajouts du Middleware de verification de connexion
 $app->add(new \charly\middlewares\AuthMiddleware($container->views->getEnvironment()));
 
-$app->get('/', \charly\controllers\ExempleController::class . ':index')->setName('index');
+$app->get('/', \charly\controllers\LogementController::class.':listLogement')->setName('index');
 
 $app->group('/utilisateur', function() {
     $this->get('/list', \charly\controllers\UtilisateursController::class . ':listUsers')->setName('listUsers');
+    $this->get('/list-json/{search}', \charly\controllers\UtilisateursController::class . ':listUsersJson')->setName('listUsersJson');
+    $this->get('/name/{name}', \charly\controllers\UtilisateursController::class . ':retrieveId')->setName('retrieveId');
     $this->get('/details/{id:[0-9]+}', \charly\controllers\UtilisateursController::class . ':detailsUser')->setName('detailsUser');
     $this->get('/inscription', \charly\controllers\UtilisateursController::class . ':inscriptionForm')->setName('utilisateur.inscription.form');
     $this->post('/inscription', \charly\controllers\UtilisateursController::class . ':inscription')->setName('utilisateur.inscription');
@@ -89,6 +92,10 @@ $app->group('/logement',function (){
 
 });
 
+$app->group('/gestion',function (){
+    $this->get('/index', \charly\controllers\GestionController::class . ':index')->setName('gestion.index');
+});
+
 /*
 $app->get('/', \charly\controllers\EvenementsController::class . ':index')->setName('index');
 
@@ -99,13 +106,15 @@ $app->group('/evenements', function () {
 });
 */
 
-$app->get('/group/create', GroupeController::class . ':interfaceCreationGroupe')->setName('createGroup');
+$app->group('/group', function(){
+    $this->get('/create', GroupeController::class . ':interfaceCreationGroupe')->setName('createGroup');
+    $this->post('/create', GroupeController::class . ':postCreerGroupe')->setName('createGroupForm');
+    $this->get('/view', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
+    $this->get('/validate', ValidationController::class . ':validerGroupe')->setName('validateGroup');
+
+});
 
 
-$app->post('/group/create', GroupeController::class . ':postCreerGroupe')->setName('createGroupForm');
-
-
-$app->get('/group/view', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
 
 $app->post('/group/modif', GroupeController::class . ':postAjoutLogement')->setName('ajoutLogement');
 

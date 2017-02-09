@@ -15,7 +15,7 @@ class UtilisateursController extends BaseController
         if (!isset($_SESSION['user'])) {
             $this->render($response, 'utilisateurs/inscription');
         } else {
-            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
+            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']['id']]);
         }
     }
 
@@ -45,7 +45,7 @@ class UtilisateursController extends BaseController
                 unset($params['password_verify']);
                 $params['password'] = password_hash($params['password'], PASSWORD_DEFAULT, ['cost' => 10]);
                 $idUser = user::create($params);
-                $this->createSession('user', $user->id);
+                $this->createSession('user', ['id' => $idUser->id, 'gest' => 0]);
                 $this->flash('success', "Inscription réussie avec succès.");
                 return $this->redirect($response, 'utilisateur.compte', ['id' => $idUser->id]);
             } else {
@@ -53,7 +53,7 @@ class UtilisateursController extends BaseController
                 return $this->redirect($response, 'inscription.form', $args, 400);
             }
         } else {
-            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
+            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']['id']]);
         }
     }
 
@@ -62,7 +62,7 @@ class UtilisateursController extends BaseController
         if (!isset($_SESSION['user'])) {
             $this->render($response, 'utilisateurs/connexion');
         } else {
-            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
+            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']['id']]);
         }
     }
 
@@ -80,7 +80,7 @@ class UtilisateursController extends BaseController
                 $user = user::where('email', '=', $request->getParam('email'))->first();
                 if (!is_null($user)) {
                     if (password_verify($request->getParam('password'), $user->password)) {
-                        $this->createSession('user', $user->id);
+                        $this->createSession('user', ['id' => $user->id, 'gest' => $user->gestionnaire]);
                         $this->flash('success', "Connexion réussie avec succès.");
                         return $this->redirect($response, 'utilisateur.compte', ['id' => $user->id]);
                     } else {
@@ -96,7 +96,7 @@ class UtilisateursController extends BaseController
                 return $this->redirect($response, 'utilisateur.connexion.form', $args, 400);
             }
         } else {
-            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
+            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']['id']]);
         }
     }
 
@@ -122,6 +122,17 @@ class UtilisateursController extends BaseController
         $this->render($resp, 'utilisateurs/detailsUtilisateur',$tab);
     }
 
+
+    public function listUsersJson(RequestInterface $request, ResponseInterface $response, $args){
+        $search = $args['search'];
+        $tab = \charly\models\User::where('nom', 'LIKE', "%$search%")->get();
+        $users = array();
+        foreach ($tab as $u){
+            array_push($users, $u->nom);
+        }
+        echo json_encode($users);
+    }
+
     public function compte(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (isset($_SESSION['user'])) {
@@ -135,15 +146,27 @@ class UtilisateursController extends BaseController
     public function avatar(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (isset($_SESSION['user'])) {
-            $user = User::where('id', '=', $_SESSION['user'])->first();
+            $user = User::where('id', '=', $_SESSION['user']['id'])->first();
             $user->img = $request->getParam('avatar');
             $user->save();
             $this->flash('info', "Avatar changé avec succès.");
-            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
+            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']['id']]);
         } else {
             return $this->redirect($response, 'index');
         }
     }
+
+
+
+
+
+    public function retrieveId(RequestInterface $request, ResponseInterface $response, $args)
+    {
+        $search = $args['name'];
+        $tab = \charly\models\User::where('nom', '=', $search)->first();
+        echo $tab->id;
+    }
+
 
     public function editer(RequestInterface $request, ResponseInterface $response, $args)
     {
@@ -162,7 +185,7 @@ class UtilisateursController extends BaseController
             }
 
             if (empty($errors)) {
-                $user = User::where('id', '=', $_SESSION['user'])->first();
+                $user = User::where('id', '=', $_SESSION['user']['id'])->first();
                 if (empty($request->getParam('password'))) {
                     $user->email = $request->getParam('email');
                 } else {
@@ -170,14 +193,14 @@ class UtilisateursController extends BaseController
                 }
                 $user->save();
                 $this->flash('info', "Mise à jour réussie.");
-                return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
+                return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']['id']]);
             } else {
                 $this->flash('errors', $errors);
-                return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']], 400);
+                return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']['id']], 400);
             }
 
             $this->flash('info', "Mise à jour réussie.");
-            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
+            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']['id']]);
         } else {
             return $this->redirect($response, 'index');
         }
