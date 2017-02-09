@@ -24,7 +24,7 @@ class LogementController extends BaseController
             $note = $_GET['note'];
         }
         if (isset($args['filter1'])){
-            if($args['filter1'] === "places"){
+            if($args['filter1'] == "places"){
                 if (isset($_SESSION['user'])){
                     $nbUsers = Groupe::where('proprietaire', '=', $_SESSION['user']['id'])->first();
                     if($nbUsers){

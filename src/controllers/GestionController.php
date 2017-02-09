@@ -111,7 +111,7 @@ class GestionController extends BaseController
                     if (!empty($fichier)) {
                         $resultats = $fichier['image'];
 
-                        if ($resultats->getError() === UPLOAD_ERR_OK) {
+                        if ($resultats->getError() == UPLOAD_ERR_OK) {
 
                             $logement = new Logement();
                             $logement->places = $request->getParam('places');
