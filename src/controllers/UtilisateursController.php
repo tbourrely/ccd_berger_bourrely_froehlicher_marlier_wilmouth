@@ -104,7 +104,7 @@ class UtilisateursController extends BaseController
     {
         if (isset($_SESSION['user'])) {
             session_destroy();
-            $this->flash('infos', 'Déconnexion réussie avec succès.');
+            $this->flash('info', 'Déconnexion réussie avec succès.');
             return $this->redirect($response, 'index');
         } else {
             return $this->redirect($response, 'index');
@@ -138,7 +138,45 @@ class UtilisateursController extends BaseController
             $user = User::where('id', '=', $_SESSION['user'])->first();
             $user->img = $request->getParam('avatar');
             $user->save();
-            $this->flash('infos', "Avatar changé avec succès.");
+            $this->flash('info', "Avatar changé avec succès.");
+            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
+        } else {
+            return $this->redirect($response, 'index');
+        }
+    }
+
+    public function editer(RequestInterface $request, ResponseInterface $response, $args)
+    {
+        if (isset($_SESSION['user'])) {
+            $errors = [];
+            if (!Validator::email()->validate($request->getParam('email'))) {
+                $errors['email'] = "Votre email n'est pas valide.";
+            }
+
+            if (!empty($request->getParam('password'))) {
+                if ($request->getParam('password') == $request->getParam('password_verify')) {
+
+                } else {
+                    $errors['email'] = "Les deux mots de passe ne sont pas identique.";
+                }
+            }
+
+            if (empty($errors)) {
+                $user = User::where('id', '=', $_SESSION['user'])->first();
+                if (empty($request->getParam('password'))) {
+                    $user->email = $request->getParam('email');
+                } else {
+                    $user->password = password_hash($request->getParam('password'), PASSWORD_DEFAULT, ['cost' => 10]);
+                }
+                $user->save();
+                $this->flash('info', "Mise à jour réussie.");
+                return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
+            } else {
+                $this->flash('errors', $errors);
+                return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']], 400);
+            }
+
+            $this->flash('info', "Mise à jour réussie.");
             return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
         } else {
             return $this->redirect($response, 'index');
