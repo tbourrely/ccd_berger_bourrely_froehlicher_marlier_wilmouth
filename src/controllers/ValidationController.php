@@ -22,9 +22,10 @@ class ValidationController extends BaseController
         if(isset($_SESSION['user']['id'])) {
             $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->where('id', $request->getParam('validate'))->first();
             if(!is_null($g)){
+                $invite=Invitation::where('idGroupe',$g->id)->get();
                 $l=Logement::where('id', $g->idLogement)->first();
                 if(!is_null($l)){
-                    if($l->places==$g->nbUsers){
+                    if($l->places==sizeof($invite)+1){
                         $g->status='complet';
                         $g->save();
                         $this->flash('info', 'Le groupe a bien été accepté');
