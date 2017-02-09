@@ -1,29 +1,13 @@
 {% extends "layout.html.twig" %}
 
-{% set title = "Liste de logement" %}
+{% set title = "Home" %}
 
 {% block content %}
+
     <div class="col-md-12">
-        <div class="page-header">
-            <h1>Liste de logement</h1>
-
-
-
-                <div class="col-md-1">
-                    <input id="note-selector" type="number" name="keyword" class="form-control" value="0" min="0">
-                </div>
-
-
-                <button type="button" onclick="note_select()" class="btn btn-sm btn-primary">Note minimum</button>
-
-
-                <a class="btn btn-sm btn-primary" href="{{ path_for('listLogement', {'filter1': 'places'}) }}">nombre de places similaire</a>
-
-                <a class="btn btn-sm btn-primary" href="{{ path_for('listLogement') }}">tous les logements</a>
-
-
-
-
+        <div class="page-header text-center">
+            <h1>Acceuil</h1>
+            <h1>Voici les meilleurs logements disponibles actuellement</h1>
         </div>
         <div class="row">
             {% for l in logements %}
@@ -40,4 +24,5 @@
             {% endfor %}
         </div>
     </div>
+
 {% endblock %}
