@@ -72,6 +72,8 @@ $app->group('/utilisateur', function() {
 
 $app->group('/logement',function (){
     $this->get('/list',\charly\controllers\LogementController::class.':listLogement')->setName('listLogement');
+    $this->get('/details/{id:[0-9]+}', \charly\controllers\LogementController::class . ':detailsLogement')->setName('detailsLogement');
+
 });
 
 /*

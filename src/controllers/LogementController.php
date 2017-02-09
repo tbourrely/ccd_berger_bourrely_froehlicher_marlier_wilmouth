@@ -21,4 +21,9 @@ class LogementController extends BaseController
         $this->render($resp,'logement/listLogement',$tab);
 
     }
+
+    public function detailsLogement(RequestInterface $req, ResponseInterface $resp, $args){
+        $tab['logement'] = \charly\models\Logement::where('id', $args['id'])->first();
+        $this->render($resp, 'logement/detailsLogement',$tab);
+    }
 }

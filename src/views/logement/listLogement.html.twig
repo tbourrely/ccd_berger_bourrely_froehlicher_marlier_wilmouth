@@ -14,7 +14,7 @@
                         <img src="{{ base_url() }}/assets/img/apart/{{ l.id }}.jpg" style="height: 20em">
                         <div class="caption">
                             <h3>Nombre de places : {{ l.places }}</h3>
-                            <p><a class="btn btn-primary btn-lg" href="#" role="button">voir logement</a></p>
+                            <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsLogement',{'id' : l.id}) }}" role="button">voir logement</a></p>
                         </div>
                     </div>
                 </div>
