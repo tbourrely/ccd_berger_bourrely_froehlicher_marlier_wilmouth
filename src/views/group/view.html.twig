@@ -5,16 +5,7 @@
 {% block content %}
     <div class="container">
         <h1>Visualisation du groupe</h1>
-        <div class="row">
-            <div class="form-group col-md-6">
-                <input id="user_list_dropdown_input" type="text" name="keyword" class="form-control col-md-12" placeholder="Rechercher">
-                <ul id="user_list_dropdown" class="col-md-12">
-                </ul>
-            </div>
-            <div id="user_container" class="col-md-4">
 
-            </div>
-        </div>
 
 
         <div class="col-sm-12">
@@ -32,12 +23,22 @@
                     <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsUser',{'id' : groupe.proprio.id}) }}" role="button">voir profil</a></p>
                     <h3 style="color: red">Proprietaire</h3>
                 </div>
+                <div class="row">
+
+                        <input id="user_list_dropdown_input" type="text" name="keyword" class="form-control col-md-12" placeholder="Rechercher">
+                        <ul id="user_list_dropdown" class="col-md-12">
+                        </ul>
+
+                    <div id="user_container" class="col-md-12">
+
+                    </div>
+                </div>
             </div>
             <div class="col-sm-9 text-center">
                 <div class="row">
 
                     {% for i in invitation %}
-                        <div class="col-sm-4 text-center">
+                        <div id="user_container" class="col-sm-4 text-center">
                             <div class="jumbotron" >
                                 <div class="col-sm-12 col-xs-6">
                                     <img src="{{ base_url() }}/assets/img/user/{{ i.user.id }}.jpg">
