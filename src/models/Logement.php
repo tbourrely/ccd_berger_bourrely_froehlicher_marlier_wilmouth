@@ -17,11 +17,13 @@ class Logement extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function groupes() {
+    public function groupes()
+    {
         return $this->hasMany('\charly\models\Groupe', 'idLogement');
+    }
 
     public function notations(){
-        return $this->hasMany('charly\models\Notation','idLogement');
+        return $this->hasMany('\charly\models\Notation','idLogement');
     }
 
 }
