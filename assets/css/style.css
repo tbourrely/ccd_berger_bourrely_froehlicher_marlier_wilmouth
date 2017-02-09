@@ -34,3 +34,8 @@
     text-decoration: none;
     color: orange;
 }
+
+.navbar-brand{
+    font-weight: bolder;
+    color: #eeeeee!important;
+}

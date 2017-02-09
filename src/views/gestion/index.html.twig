@@ -9,7 +9,6 @@
         </div>
         <div class="row">
             {% for logement in logements %}
-
                 {% set ok = false %}
                 {% for groupes in logement.groupes %}
                     {% if groupes.status == 'completValide' %}
@@ -55,16 +54,16 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="4" class="text-center">
-                                                    <a href="" class="btn btn-primary">Valider</a>
-                                                    <a href="" class="btn btn-danger">Refuser</a>
+                                                    <a onclick="return confirm('Voulez vous valider ce groupe ?')" href="{{ path_for('gestion.valider', { groupe : groupes.id }) }}" class="btn btn-primary">Valider</a>
+                                                    <a onclick="return confirm('Voulez vous refuser ce groupe ?')" href="{{ path_for('gestion.refuser', { groupe : groupes.id }) }}" class="btn btn-danger">Refuser</a>
                                                 </td>
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div>
-                                <hr class="divider">
                             {% endif %}
                         {% endfor %}
+                        <hr class="divider">
                     </div>
                 {% endif %}
             {% endfor %}
