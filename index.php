@@ -101,12 +101,12 @@ $app->group('/evenements', function () {
 });
 */
 
-$app->get('/group/create', GroupeController::class . ':interfaceCreationGroupe')->setName('createGroup');
+$app->group('/group', function(){
+    $this->get('/create', GroupeController::class . ':interfaceCreationGroupe')->setName('createGroup');
+    $this->post('/create', GroupeController::class . ':postCreerGroupe')->setName('createGroupForm');
+    $this->get('/view', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
+});
 
 
-$app->post('/group/create', GroupeController::class . ':postCreerGroupe')->setName('createGroupForm');
-
-
-$app->get('/group/view', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
 
 $app->run();

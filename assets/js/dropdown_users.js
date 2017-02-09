@@ -71,15 +71,15 @@ function retrieveId(name){
         url:'/ccd_berger_bourrely_froehlicher_marlier_wilmouth/utilisateur/name/' + name,
         type: "get"
     }).done(function(data){
-        var element = '<div class="col-md-3 text-center">\
+        var element = '<div class="text-center">\
             <div class="jumbotron" >\
-            <div class="col-sm-12 col-xs-6">\
-            <img src="/ccd_berger_bourrely_froehlicher_marlier_wilmouth//assets/img/user/'+ data +'.jpg">\
+            <div>\
+                <img src="/ccd_berger_bourrely_froehlicher_marlier_wilmouth//assets/img/user/'+ data +'.jpg">\
             </div>\
             <div class="text-center">\
             <h3>'+ name + '</h3>\
         </div>\
-        <p><a class="btn btn-primary btn-lg" href="" role="button">voir profil</a></p>\
+        <p><a class="btn btn-primary btn-lg" href="" role="button">ajouter au groupe</a></p>\
         </div>\
         </div>';
         $("#user_container").empty();
