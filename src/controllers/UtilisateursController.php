@@ -165,7 +165,7 @@ class UtilisateursController extends BaseController
     {
         $search = $args['name'];
         $tab = \charly\models\User::where('nom', '=', $search)->first();
-        echo $tab->id;
+        echo $tab->img;
     }
 
 
