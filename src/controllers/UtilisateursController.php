@@ -125,7 +125,7 @@ class UtilisateursController extends BaseController
 
     public function listUsersJson(RequestInterface $request, ResponseInterface $response, $args){
         $search = $args['search'];
-        $tab = \charly\models\User::where('nom', 'LIKE', "%$search%")->get();
+        $tab = \charly\models\User::where('nom', 'LIKE', "$search%")->get();
         $users = array();
         foreach ($tab as $u){
             array_push($users, $u->nom);

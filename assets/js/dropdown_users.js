@@ -60,16 +60,32 @@ function retrieveId(name){
     }).done(function(data){
         var element = '<div class="text-center">\
             <div class="jumbotron" >\
-            <div>\
-                <img src="/ccd_berger_bourrely_froehlicher_marlier_wilmouth//assets/img/user/'+ data +'.jpg">\
+                <div>\
+                    <img src="/ccd_berger_bourrely_froehlicher_marlier_wilmouth//assets/img/user/'+ data +'.jpg">\
+                </div>\
+                <div class="text-center">\
+                    <h3>'+ name + '</h3>\
+                </div>\
+                <p><a class="btn btn-primary btn-lg" onclick="adduser('+data+')" role="button">ajouter au groupe</a></p>\
             </div>\
-            <div class="text-center">\
-            <h3>'+ name + '</h3>\
-        </div>\
-        <p><a class="btn btn-primary btn-lg" href="" role="button">ajouter au groupe</a></p>\
-        </div>\
         </div>';
-        $("#user_container").empty();
+
         $("#user_container").append(element);
+    });
+}
+
+
+function adduser(id){
+    var url = path + "/group/add/" + id;
+    $.ajax({
+        url: url,
+        type: "GET"
+
+    }).done(function (data) {
+        console.log(data);
+        if(data === 'inserted'){
+            $("#user_container").empty();
+            $('#user_list_dropdown_input').val('');
+        }
     });
 }
