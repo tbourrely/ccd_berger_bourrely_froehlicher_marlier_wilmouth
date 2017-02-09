@@ -118,7 +118,7 @@ class ValidationController extends BaseController
 
     public function refuserInvitation(RequestInterface $request, ResponseInterface $response, $args){
         $invitation = Invitation::where('url', $args['id'])->first();
-        $g=Groupe::where('id',$invitation->idGroupe);
+        $g=Groupe::where('id',$invitation->idGroupe)->first();
         if(!is_null($g)) {
             if (!is_null($invitation)) {
                 if ($invitation->status != 'accepte') {
