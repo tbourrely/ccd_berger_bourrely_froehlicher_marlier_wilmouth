@@ -31,7 +31,7 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropDowenUser">
                     {% if auth %}
-                        <li><a href="{{ path_for('utilisateur.compte', { 'id': auth.user }) }}">Mon compte</a></li>
+                        <li><a href="{{ path_for('utilisateur.compte', { 'id': auth }) }}">Mon compte</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="{{ path_for('utilisateur.deconnexion') }}">Déconnexion</a></li>
                     {% else %}
