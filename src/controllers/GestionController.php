@@ -8,8 +8,8 @@
 
 namespace charly\controllers;
 
+use charly\models\Groupe;
 use charly\models\Logement;
-use charly\models\User;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -20,8 +20,8 @@ class GestionController extends BaseController
     {
          if (isset($_SESSION['user'])) {
              if ($_SESSION['user']['gest'] === 1) {
-                $logements = Logement::all();
-                $this->render($response, 'gestion/index', ['logements' => $logements]);
+                 $logements = Logement::with('groupes', 'groupes.invitation', 'groupes.invitation.user')->get();
+                 $this->render($response, 'gestion/index', ['logements' => $logements]);
              } else {
                  $this->flash('error', 'Vous devez être gestionnaire pour accèder a cette page.');
                  return $this->redirect($response, 'index');
