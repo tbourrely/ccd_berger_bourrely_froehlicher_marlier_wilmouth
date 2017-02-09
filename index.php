@@ -66,6 +66,8 @@ $app->get('/', \charly\controllers\ExempleController::class . ':index')->setName
 
 $app->group('/utilisateur', function() {
     $this->get('/inscription', \charly\controllers\UtilisateursController::class . ':inscriptionForm')->setName('inscription.form');
+    $this->post('/inscription', \charly\controllers\UtilisateursController::class . ':inscription')->setName('utilisateur.inscription');
+    $this->get('/{id:[0-9]+}', \charly\controllers\UtilisateursController::class . ':compte')->setName('utilisateur.compte');
 });
 
 /*
