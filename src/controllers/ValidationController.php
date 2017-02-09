@@ -122,11 +122,16 @@ class ValidationController extends BaseController
         if(!is_null($g)) {
             if (!is_null($invitation)) {
                 if ($invitation->status != 'accepte') {
-
                     $g->status="ouvert";
                     $g->nbUsers=$g->nbUsers-1;
                     $invitation->delete();
                     $g->save();
+                    $invs=Invitation::where('idGroupe',$g->id)->get();
+                    foreach ($invs as $i){
+                        $i->status=0;
+                        $i->url=0;
+                        $i->save();
+                    }
                     $this->flash('info', 'Vous avez refuser l\'invitation.');
                     return $this->redirect($response, 'utilisateur.connexion.form');
                 } else {
