@@ -62,20 +62,20 @@
             <div class="center-block col-sm-12">
                 <h2>Logement</h2>
                 <hr class="my-4">
-                {% if groupe.logementR == false %}
-                <div class="thumbnail" style="background-color:#eee " >
-                    <img src="{{ base_url() }}/assets/img/apart/{{ groupe.logementG.id }}.jpg" style="height: 20em">
-                    <div class="caption">
-                        <h3 style="text-align: center">Nombre de places : {{ groupe.logementG.places }}</h3>
-                    </div>
+                {% if groupe.logementG.id %}
+                    <div class="thumbnail" style="background-color:#eee " >
+                        <img src="{{ base_url() }}/assets/img/apart/{{ groupe.logementG.id }}.jpg" style="height: 20em">
+                        <div class="caption">
+                            <h3 style="text-align: center">Nombre de places : {{ groupe.logementG.places }}</h3>
+                        </div>
 
-                    <div class="text-center">
-                        <form method="post" action="{{ path_for('supLogement') }}">
-                            {{ csrf() }}
-                            <button class="btn btn-danger">SUPPRIMER</button>
-                        </form>
+                        <div class="text-center">
+                            <form method="post" action="{{ path_for('supLogement') }}">
+                                {{ csrf() }}
+                                <button class="btn btn-danger">SUPPRIMER</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
                 {% else %}
                     <h3>Vous n'avez pas de logements actuellement</h3>
                     <a class="btn btn-success" href="{{ path_for('listLogement') }}">Choisir un logement</a>

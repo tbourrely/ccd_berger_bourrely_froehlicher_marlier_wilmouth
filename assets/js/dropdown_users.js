@@ -86,6 +86,7 @@ function adduser(id){
         if(data === 'inserted'){
             $("#user_container").empty();
             $('#user_list_dropdown_input').val('');
+            window.location.reload();
         }
     });
 }
