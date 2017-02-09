@@ -15,6 +15,7 @@ class Invitation extends Model
 {
     protected $table = 'invitation';
     protected $primaryKey = 'id';
+    protected $fillable = ['idUser', 'idGroupe', 'url', 'status'];
     public $timestamps = false;
 
     public function user(){

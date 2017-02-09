@@ -112,11 +112,21 @@ class GroupeController extends BaseController
            if(isset($args['id'])){
                $user = User::where('id', '=', $args['id'])->first();
                if($user){
-
-                   $group = Groupe::where('proprietaire', '=', $_SESSION['user'])->first();
+                   $group = Groupe::where('proprietaire', '=', $_SESSION['user']['id'])->first();
                    if($group){
-                       
+                       Invitation::updateOrCreate([
+                           'idUser' => $user->id,
+                           'idGroupe' => $group->id
+                       ],[
+                           'status' => 0,
+                           'url' => 0
+                       ]);
+                       echo "inserted";
+                   }else{
+                       echo "error group";
                    }
+               }else{
+                   echo "error user";
                }
            }
        }
