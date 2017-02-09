@@ -1,0 +1,23 @@
+{% extends "layout.html.twig" %}
+
+{% set title = "Gestion" %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>Gestion</h1>
+        </div>
+        <div class="row">
+            {% for logement in logements %}
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail" >
+                        <img src="{{ base_url() }}/assets/img/apart/{{ logement.id }}.jpg" style="height: 20em">
+                        <div class="caption">
+                            <h3>Nombre de places : {{ logement.places }}</h3>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
