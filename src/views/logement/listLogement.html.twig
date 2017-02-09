@@ -7,11 +7,22 @@
         <div class="page-header">
             <h1>Liste de logement</h1>
 
-            {% if not button %}
-                <a class="btn btn-sm btn-primary" href="{{ path_for('listLogementFilter') }}">nombre de places similaire</a>
-            {% else %}
+
+
+                <div class="col-md-1">
+                    <input id="note-selector" type="number" name="keyword" class="form-control" value="0" min="0">
+                </div>
+
+
+                <button type="button" onclick="note_select()" class="btn btn-sm btn-primary">Note minimum</button>
+
+
+                <a class="btn btn-sm btn-primary" href="{{ path_for('listLogement', {'filter1': 'places'}) }}">nombre de places similaire</a>
+
                 <a class="btn btn-sm btn-primary" href="{{ path_for('listLogement') }}">tous les logements</a>
-            {% endif %}
+
+
+
 
         </div>
         <div class="row">
@@ -21,6 +32,7 @@
                         <img src="{{ base_url() }}/assets/img/apart/{{ l.id }}.jpg" style="height: 20em">
                         <div class="caption">
                             <h3>Nombre de places : {{ l.places }}</h3>
+                            <h3>Note : {{ l.moy }}</h3>
                             <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsLogement',{'id' : l.id}) }}" role="button">voir logement</a></p>
                         </div>
                     </div>

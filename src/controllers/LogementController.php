@@ -19,8 +19,33 @@ class LogementController extends BaseController
 {
 
     public function listLogement(RequestInterface $req, ResponseInterface $resp, $args){
-        $tab["logements"]=Logement::where('places','>',0)->get();
-        $this->render($resp,'logement/listLogement',$tab);
+        $note = 0;
+        if(isset($_GET['note'])){
+            $note = $_GET['note'];
+        }
+        if (isset($args['filter1'])){
+            if($args['filter1'] === "places"){
+                if (isset($_SESSION['user'])){
+                    $nbUsers = Groupe::where('proprietaire', '=', $_SESSION['user']['id'])->first()->nbUsers;
+                    if($nbUsers){
+                        $tab["logements"] = Logement::where('places', '=', $nbUsers)->where('moy', '>=', $note)->get();
+                        $this->render($resp,'logement/listLogement',$tab);
+                    }else{
+                        echo "error nbusers";
+                    }
+                }else{
+                    echo "non connecte";
+                }
+            }else{
+                $tab["logements"]=Logement::where('places','>',0)->where('moy', '>=', $note)->get();
+                $this->render($resp,'logement/listLogement',$tab);
+            }
+
+        }else{
+            $tab["logements"]=Logement::where('places','>',0)->where('moy', '>=', $note)->get();
+            $this->render($resp,'logement/listLogement',$tab);
+        }
+
 
     }
 
@@ -28,22 +53,6 @@ class LogementController extends BaseController
         $tab['logement'] = \charly\models\Logement::where('id', $args['id'])->first();
         $this->render($resp, 'logement/detailsLogement',$tab);
     }
-
-    public function listLogementFilter(RequestInterface $request, ResponseInterface $response, $args){
-        if (isset($_SESSION['user'])){
-            $nbUsers = Groupe::where('proprietaire', '=', $_SESSION['user']['id'])->first()->nbUsers;
-            if($nbUsers){
-                $tab["logements"] = Logement::where('places', '=', $nbUsers)->get();
-                $tab["button"]="filter";
-                $this->render($response,'logement/listLogement',$tab);
-            }else{
-                echo "error nbusers";
-            }
-        }else{
-            echo "non connecte";
-        }
-    }
-
 
     public function rateLogement(RequestInterface $req, ResponseInterface $resp, $args){
 

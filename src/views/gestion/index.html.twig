@@ -9,14 +9,64 @@
         </div>
         <div class="row">
             {% for logement in logements %}
-                <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail" >
-                        <img src="{{ base_url() }}/assets/img/apart/{{ logement.id }}.jpg" style="height: 20em">
-                        <div class="caption">
-                            <h3>Nombre de places : {{ logement.places }}</h3>
+
+                {% set ok = false %}
+                {% for groupes in logement.groupes %}
+                    {% if groupes.status == 'completValide' %}
+                        {% set ok = true %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if logement.groupes|length >=1 and ok %}
+                    <div class="center-block col-sm-12">
+                        <div class="thumbnail" style="background-color:#eee " >
+                            <img src="{{ base_url() }}/assets/img/apart/{{ logement.id }}.jpg" style="height: 20em">
+                            <div class="caption">
+                                <h3 style="text-align: center">Nombre de places : {{ logement.places }}</h3>
+                            </div>
                         </div>
+                        {% for groupes in logement.groupes %}
+                            {% if groupes.status == 'completValide' %}
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">#</th>
+                                                <th class="text-center">Nom</th>
+                                                <th class="text-center">Email</th>
+                                                <th class="text-center">Age</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for invitations in groupes.invitation %}
+                                            <tr>
+                                                <td style="width: 100px;" class="text-center"><img src="{{ base_url() }}/assets/img/user/{{ invitations.user.img }}.jpg" width="48"></td>
+                                                <td>{{ invitations.user.nom }}</td>
+                                                <td>{{ invitations.user.email }}</td>
+                                                <td>{{ invitations.user.age }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="4">
+                                                    Description : {{ groupes.description }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" class="text-center">
+                                                    <a href="" class="btn btn-primary">Valider</a>
+                                                    <a href="" class="btn btn-danger">Refuser</a>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <hr class="divider">
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
