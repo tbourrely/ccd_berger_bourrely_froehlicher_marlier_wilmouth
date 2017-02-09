@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CoolRacing {% if title is defined %} - {{ title }}{% endif %}</title>
+    <title>Un toit pour tous {% if title is defined %} - {{ title }}{% endif %}</title>
     <link rel="stylesheet" href="{{ base_url() }}/assets/css/style.css">
 
     <link rel="stylesheet" href="{{ base_url() }}/assets/bootstrap/css/bootstrap.min.css">
@@ -21,13 +21,18 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <a class="navbar-brand" href="">CoolRacing</a>
+                <a class="navbar-brand" href="">Un toit pour tous</a>
             </div>
-
+            <form action="#" method="post" class="navbar-form navbar-right">
+                {{ csrf() }}
+                <div class="form-group">
+                    <input type="text" name="keyword" class="form-control" placeholder="Rechercher">
+                </div>
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            </form>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Accueil</a></li>
-                    <li><a href="#">Evenements</a></li>
                 </ul>
             </div>
         </div>
