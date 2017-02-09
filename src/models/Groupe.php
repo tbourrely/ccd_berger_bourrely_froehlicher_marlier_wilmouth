@@ -16,4 +16,6 @@ class Groupe extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
+
+
 }

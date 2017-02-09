@@ -5,6 +5,8 @@ use Slim\Views\TwigExtension;
 use charly\controllers\GroupeController;
 // Demarrage de la session
 session_start();
+$_SESSION['user'] = array();
+$_SESSION['user']['id']=1;
 
 // Importation de l'autoloader
 require 'vendor/autoload.php';
@@ -47,6 +49,7 @@ $container['flash'] = function () {
 
 
 // Initialisation de la protection csrf dans le container
+
 $container['csrf'] = function () {
     return new Slim\Csrf\Guard();
 };
@@ -95,5 +98,11 @@ $app->group('/evenements', function () {
 */
 
 $app->get('/group/create', GroupeController::class . ':interfaceCreationGroupe')->setName('createGroup');
+
+
+$app->post('/group/create', GroupeController::class . ':postCreerGroupe')->setName('createGroupForm');
+
+
+$app->get('/group/view/{id:[0-9]+}', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
 
 $app->run();

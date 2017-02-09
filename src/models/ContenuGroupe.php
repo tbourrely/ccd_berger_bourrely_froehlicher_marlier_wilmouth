@@ -9,7 +9,13 @@
 namespace charly\models;
 
 
-class ContenuGroupe
+use Illuminate\Database\Eloquent\Model;
+
+class ContenuGroupe extends Model
 {
+
+    protected $table = 'contenu_groupe';
+    protected $primaryKey = 'id';
+    public $timestamps = false;
 
 }
