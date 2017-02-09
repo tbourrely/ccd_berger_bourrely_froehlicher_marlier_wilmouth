@@ -8,9 +8,7 @@
 
 namespace charly\controllers;
 
-use coolracing\models\Epreuve;
-use coolracing\models\Participant;
-use coolracing\models\Participe;
+
 use Dompdf\Dompdf;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -23,8 +21,6 @@ use Respect\Validation\Validator;
  */
 class ExempleController extends BaseController
 {
-
-
 
     public function index(RequestInterface $req, ResponseInterface $resp, $args){
         $this->render($resp, 'layout');
