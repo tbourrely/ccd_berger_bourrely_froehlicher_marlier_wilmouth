@@ -17,4 +17,8 @@ class Logement extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
+    public function notations(){
+        return $this->hasMany('charly\models\Notation','idLogement');
+    }
+
 }

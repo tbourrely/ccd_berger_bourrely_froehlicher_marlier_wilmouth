@@ -101,6 +101,11 @@ class GroupeController extends BaseController
             }
             $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->first();
             if (!is_null($g)) {
+
+                if($g->status != 'ouvert'){
+                    $this->flash('error', 'Vous ne pouvez plus ajouter de Logement');
+                    return $this->redirect($response, 'viewGroup', $args, 400);
+                }
                 $g->idLogement = $l->id;
                 $g->save();
                 return $this->redirect($response, 'viewGroup');
@@ -116,6 +121,12 @@ class GroupeController extends BaseController
         if (isset($_SESSION['user'])) {
             $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->first();
             if (!is_null($g)) {
+
+                if($g->status != 'ouvert'){
+                    $this->flash('error', 'Vous ne pouvez plus supprimer de Logement');
+                    return $this->redirect($response, 'viewGroup', $args, 400);
+                }
+
                 $g->idLogement = null;
                 $g->save();
                 return $this->redirect($response, 'viewGroup');
@@ -132,6 +143,10 @@ class GroupeController extends BaseController
                $user = User::where('id', '=', $args['id'])->first();
                if($user){
                    $group = Groupe::where('proprietaire', '=', $_SESSION['user']['id'])->first();
+                   if($group->status != 'ouvert'){
+                       $this->flash('error', 'Vous ne pouvez plus ajouter d\'utilisateur');
+                       return $this->redirect($response, 'viewGroup', $args, 400);
+                   }
                    if($group){
                        $group->nbUsers++;
                        $group->save();
@@ -163,6 +178,11 @@ class GroupeController extends BaseController
             $i = Invitation::where('idUser', $request->getParam('suppress'))->where('idGroupe', $g->id)->first();
 
             if(!is_null($i)){
+
+                if($g->status != 'ouvert'){
+                    $this->flash('error', 'Vous ne pouvez plus supprimer d\'utilisateur');
+                    return $this->redirect($response, 'viewGroup', $args, 400);
+                }
                 $i->delete();
                 $g->nbUsers-=1;
                 $g->save();

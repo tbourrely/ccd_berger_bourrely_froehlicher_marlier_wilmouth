@@ -51,13 +51,27 @@
                                 </div>
                                 <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsUser',{'id' : i.user.id}) }}" role="button">voir profil</a></p>
                                 {% if groupe.status == 'complet'%}
-                                    {% if i.url is null %}
-                                        <form method="post" action="{{ path_for('genererUrl') }}">
+                                    {% if i.url == 0 %}
+                                        <form method="post" action="{{ path_for('generateURL', {'id' : i.id}) }}">
                                             {{ csrf() }}
                                             <input type="number" name="genererUrl" value="{{ i.id }}" hidden>
                                             <p><button class="btn btn-success btn-lg"  type="submit" role="button">Generer URL</button></p>
                                         </form>
-                                    {% endif %}
+                                    {% else %}
+
+
+
+                                        </button>
+                                        <div class="input-group">
+                                            <input type="text" id="to-copy" class="form-control" value="{{ path_for('index') }}{{ i.url }}" placeholder="Search for...">
+                                            <span class="input-group-btn">
+
+                                            <button id="copy" class="btn btn-default" type="button"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
+                                          </span>
+
+                                        </div><!-- /input-group -->
+                                        <br>
+                                    {%  endif %}
                                 {% endif %}
 
                                 <form method="post" action="{{ path_for('supprimerUser') }}">
