@@ -18,17 +18,15 @@ class Groupe extends Model
 
 
     public function invitation(){
-        return $this->hasMany('charly\models\Invitation','idGroupe');
+        return $this->hasMany('\charly\models\Invitation','idGroupe');
     }
 
     public function proprio(){
-        return $this->belongsTo('charly\models\User','proprietaire');
+        return $this->belongsTo('\charly\models\User','proprietaire');
     }
 
     public function logementG(){
-        return $this->belongsTo('charly\models\Logement','idLogement');
+        return $this->belongsTo('\charly\models\Logement','idLogement');
     }
-
-
 
 }

@@ -19,11 +19,11 @@ class Invitation extends Model
     public $timestamps = false;
 
     public function user(){
-        return $this->belongsTo('charly\models\User','idUser');
+        return $this->belongsTo('\charly\models\User','idUser');
     }
 
     public function groupe(){
-        return $this->belongsTo('charly\models\Groupe','idGroupe');
+        return $this->belongsTo('\charly\models\Groupe','idGroupe');
 
     }
 
