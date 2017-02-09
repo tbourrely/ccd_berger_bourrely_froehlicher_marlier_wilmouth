@@ -66,7 +66,7 @@ class GroupeController extends BaseController
         $errors = [];
 
         if(isset($_SESSION['user'])){
-            $g = Groupe::where('proprietaire', $_SESSION['user'])->where('id', $args['id'])->first();
+            $g = Groupe::where('proprietaire', $_SESSION['user'])->first();
 
             if(!is_null($g)){
                 $this->render($response, 'group\view');
