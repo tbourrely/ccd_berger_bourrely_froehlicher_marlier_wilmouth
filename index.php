@@ -68,7 +68,7 @@ $app->add($container->get('csrf'));
 // Ajouts du Middleware de verification de connexion
 $app->add(new \charly\middlewares\AuthMiddleware($container->views->getEnvironment()));
 
-$app->get('/', \charly\controllers\ExempleController::class . ':index')->setName('index');
+$app->get('/', \charly\controllers\LogementController::class.':listLogement')->setName('index');
 
 $app->group('/utilisateur', function() {
     $this->get('/list', \charly\controllers\UtilisateursController::class . ':listUsers')->setName('listUsers');
@@ -89,6 +89,10 @@ $app->group('/logement',function (){
     $this->get('/list',\charly\controllers\LogementController::class.':listLogement')->setName('listLogement');
     $this->get('/details/{id:[0-9]+}', \charly\controllers\LogementController::class . ':detailsLogement')->setName('detailsLogement');
 
+});
+
+$app->group('/gestion',function (){
+    $this->get('/index', \charly\controllers\GestionController::class . ':index')->setName('gestion.index');
 });
 
 /*
