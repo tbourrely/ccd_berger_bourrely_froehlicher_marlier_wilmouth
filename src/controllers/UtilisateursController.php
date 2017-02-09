@@ -14,8 +14,9 @@ class UtilisateursController extends BaseController
     {
         if (!isset($_SESSION['user'])) {
             $this->render($response, 'utilisateurs/inscription');
+        } else {
+            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
         }
-        return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
     }
 
     public function inscription(RequestInterface $request, ResponseInterface $response, $args)
@@ -44,23 +45,25 @@ class UtilisateursController extends BaseController
                 unset($params['password_verify']);
                 $params['password'] = password_hash($params['password'], PASSWORD_DEFAULT, ['cost' => 10]);
                 $idUser = user::create($params);
-                $_SESSION['user'] = $idUser->id;
+                $this->createSession('user', $user->id);
                 $this->flash('success', "Inscription réussie avec succès.");
                 return $this->redirect($response, 'utilisateur.compte', ['id' => $idUser->id]);
             } else {
                 $this->flash('errors', $errors);
                 return $this->redirect($response, 'inscription.form', $args, 400);
             }
+        } else {
+            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
         }
-        return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
     }
 
     public function connexionForm(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (!isset($_SESSION['user'])) {
             $this->render($response, 'utilisateurs/connexion');
+        } else {
+            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
         }
-        return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
     }
 
     public function connexion(RequestInterface $request, ResponseInterface $response, $args)
@@ -77,7 +80,7 @@ class UtilisateursController extends BaseController
                 $user = user::where('email', '=', $request->getParam('email'))->first();
                 if (!is_null($user)) {
                     if (password_verify($request->getParam('password'), $user->password)) {
-                        $_SESSION['user'] = $user->id;
+                        $this->createSession('user', $user->id);
                         $this->flash('success', "Connexion réussie avec succès.");
                         return $this->redirect($response, 'utilisateur.compte', ['id' => $user->id]);
                     } else {
@@ -85,20 +88,32 @@ class UtilisateursController extends BaseController
                         return $this->redirect($response, 'utilisateur.connexion.form', $args, 400);
                     }
                 } else {
-                    $this->flash('error', "Connexion réussie avec succès.");
+                    $this->flash('error', "Utilisateur introuvable.");
                     return $this->redirect($response, 'index');
                 }
             } else {
                 $this->flash('errors', $errors);
                 return $this->redirect($response, 'utilisateur.connexion.form', $args, 400);
             }
+        } else {
+            return $this->redirect($response, 'utilisateur.compte', $_SESSION['user']);
         }
-        return $this->redirect($response, 'utilisateur.compte', $_SESSION['user']);
+    }
+
+    public function deconnexion(RequestInterface $request, ResponseInterface $response, $args)
+    {
+        if (isset($_SESSION['user'])) {
+            session_destroy();
+            $this->flash('infos', 'Déconnexion réussie avec succès.');
+            return $this->redirect($response, 'index');
+        } else {
+            return $this->redirect($response, 'index');
+        }
     }
 
     public function compte(RequestInterface $request, ResponseInterface $response, $args)
     {
-        var_dump(password_hash('charly', PASSWORD_DEFAULT, ['cost' => 10]));
+        var_dump($_SESSION['user']);
         die();
     }
 
