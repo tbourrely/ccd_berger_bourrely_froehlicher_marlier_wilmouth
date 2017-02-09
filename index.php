@@ -107,4 +107,6 @@ $app->post('/group/create', GroupeController::class . ':postCreerGroupe')->setNa
 
 $app->get('/group/view', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
 
+$app->post('/group/modif', GroupeController::class . ':postAjoutLogement')->setName('ajoutLogement');
+
 $app->run();

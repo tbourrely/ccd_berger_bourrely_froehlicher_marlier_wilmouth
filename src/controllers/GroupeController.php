@@ -9,6 +9,7 @@
 namespace charly\controllers;
 
 use charly\models\ContenuGroupe;
+use charly\models\Logement;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Respect\Validation\Validator;
@@ -51,7 +52,7 @@ class GroupeController extends BaseController
                 $contenu->idGroupe = $g->id;
                 $contenu->save();
 
-                return $this->redirect($response, 'viewGroup', ['id' => $g->id]);
+                return $this->redirect($response, 'viewGroup');
 
             } else {
                 $this->flash('errors', $errors);
@@ -75,6 +76,27 @@ class GroupeController extends BaseController
                 return $this->redirect($response, 'createGroup', $args, 400);
             }
 
+        }else{
+            return $this->redirect($response, 'utilisateur.connexion.form');
+        }
+    }
+
+    public function postAjoutLogement(RequestInterface $request, ResponseInterface $response, $args){
+        if(isset($_SESSION['user'])){
+            $errors = [];
+            if (!Validator::intType()->validate($request->getParam('logement'))) {
+                $errors['description'] = "La description n'est pas valide.";
+            }
+            $l = Logement::where('id', $request->getParam('logement'))->first();
+            if(!is_null($l)){
+
+            }
+            $g = Groupe::where('proprietaire',$_SESSION['user'])->first();
+            if(!is_null($g)){
+                $g->idLogement = $l->id;
+                $g->save();
+                return $this->redirect($response, 'viewGroup');
+            }
         }else{
             return $this->redirect($response, 'utilisateur.connexion.form');
         }
