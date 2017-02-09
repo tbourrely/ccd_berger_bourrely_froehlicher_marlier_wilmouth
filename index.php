@@ -105,6 +105,7 @@ $app->group('/group', function(){
     $this->get('/create', GroupeController::class . ':interfaceCreationGroupe')->setName('createGroup');
     $this->post('/create', GroupeController::class . ':postCreerGroupe')->setName('createGroupForm');
     $this->get('/view', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
+    $this->get('/add/{id}', GroupeController::class . ':add')->setName('addGroup');
 });
 
 

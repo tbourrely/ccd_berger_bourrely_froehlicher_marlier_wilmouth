@@ -9,6 +9,7 @@
 namespace charly\controllers;
 
 use charly\models\ContenuGroupe;
+use charly\models\User;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Respect\Validation\Validator;
@@ -77,4 +78,21 @@ class GroupeController extends BaseController
             return $this->redirect($response, 'utilisateur.connexion.form');
         }
     }
+
+    public function add(RequestInterface $request, ResponseInterface $response, $args){
+       if(isset($_SESSION['user'])){
+           if(isset($args['id'])){
+               $user = User::where('id', '=', $args['id'])->first();
+               if($user){
+
+                   $group = Groupe::where('proprietaire', '=', $_SESSION['user'])->first();
+                   if($group){
+                       
+                   }
+               }
+           }
+       }
+    }
+
+
 }

@@ -66,10 +66,22 @@ function retrieveId(name){
             <div class="text-center">\
             <h3>'+ name + '</h3>\
         </div>\
-        <p><a class="btn btn-primary btn-lg" href="" role="button">ajouter au groupe</a></p>\
+        <p><a class="btn btn-primary btn-lg" onclick="adduser('+data+')" role="button">ajouter au groupe</a></p>\
         </div>\
         </div>';
         $("#user_container").empty();
         $("#user_container").append(element);
+    });
+}
+
+
+function adduser(id){
+    var url = path + "/group/add/" + id;
+    $.ajax({
+        url: url,
+        type: "GET"
+
+    }).done(function (data) {
+        console.log(data);
     });
 }
