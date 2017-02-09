@@ -110,14 +110,22 @@ $app->group('/group', function(){
     $this->get('/create', GroupeController::class . ':interfaceCreationGroupe')->setName('createGroup');
     $this->post('/create', GroupeController::class . ':postCreerGroupe')->setName('createGroupForm');
     $this->get('/view', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
+
+    $this->get('/add/{id}', GroupeController::class . ':add')->setName('addGroup');
+
     $this->post('/validate', ValidationController::class . ':validerGroupe')->setName('validateGroup');
     $this->post('/generateURL/{id:[0-9]+}', ValidationController::class . ':genererURL')->setName('generateURL');
     $this->post('/delete', GroupeController::class . ':supprimerUser')->setName('supprimerUser');
+    $this->post('/validateComplete', ValidationController::class . ':validerGroupeComplet')->setName('validateGroupComplete');
+
+
 
 });
 
 
 
 $app->post('/group/modif', GroupeController::class . ':postAjoutLogement')->setName('ajoutLogement');
+
+$app->post('/group/supLogement', GroupeController::class . ':postSupLogement')->setName('supLogement');
 
 $app->run();
