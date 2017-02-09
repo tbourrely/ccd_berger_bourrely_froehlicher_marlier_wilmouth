@@ -1,9 +1,9 @@
 {
-    "name": "coolracing/site",
+    "name": "CCD",
     "authors": [
         {
-            "name": "WILMOUTH Steven",
-            "email": "steven.wilmouth1@etu.univ-lorraine.fr"
+            "name": "ccd_berger_bourrely_froehlicher_marlier_wilmouth",
+            "email": ""
         }
     ],
     "require": {
@@ -14,13 +14,11 @@
         "slim/twig-view": "^2.1",
         "slim/flash": "^0.2.0",
         "slim/csrf": "^0.8.1",
-        "respect/validation": "^1.1",
-        "dompdf/dompdf": "^0.7.0",
-        "mk-j/php_xlsxwriter": "^0.22.0"
+        "respect/validation": "^1.1"
     },
     "autoload": {
     	"psr-4": {
-    		"coolracing\\": "src/"
+    		"charly\\": "src/"
     	}
     }
 }
