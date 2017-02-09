@@ -19,6 +19,7 @@ DatabaseFactory::makeConnection();
 define('DS', DIRECTORY_SEPARATOR);
 define('SRC', __DIR__ . DS . 'src');
 define('TMP', __DIR__ . DS . 'tmp');
+define('ASSETS', __DIR__ . DS . 'assets');
 
 // Initialisation de Slim
 $app = new \Slim\App([
@@ -97,6 +98,8 @@ $app->group('/gestion',function (){
     $this->get('/index', \charly\controllers\GestionController::class . ':index')->setName('gestion.index');
     $this->get('/refuser/{groupe:[0-9]+}', \charly\controllers\GestionController::class . ':refuser')->setName('gestion.refuser');
     $this->get('/valider/{groupe:[0-9]+}', \charly\controllers\GestionController::class . ':valider')->setName('gestion.valider');
+    $this->get('/logement/ajouter', \charly\controllers\GestionController::class . ':ajouterLogementForm')->setName('gestion.logement.ajouter.form');
+    $this->post('/logement/ajouter', \charly\controllers\GestionController::class . ':ajouterLogement')->setName('gestion.logement.ajouter');
 });
 
 /*

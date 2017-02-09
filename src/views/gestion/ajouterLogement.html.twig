@@ -1,0 +1,37 @@
+{% extends "layout.html.twig" %}
+
+{% set title = 'Ajouter un logement' %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>Ajouter un logement</h1>
+        </div>
+
+        <form action="{{ path_for('gestion.logement.ajouter') }}" method="post" enctype="multipart/form-data">
+            {{ csrf() }}
+
+            <div class="form-group{% if flash.errors.image %} has-error{% endif %}">
+                <label for="image">Image du logement : </label>
+                <input type="file" name="image" id="image" accept="image/*" required>
+                {% if flash.errors.image %}
+                    <span class="help-block">{{ flash.errors.image }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group{% if flash.errors.places %} has-error {% endif %}">
+                <label for="places">Places: </label>
+                <div class="input-group">
+                    <input type="number" min="1" name="places" id="places" class="form-control" placeholder="Places" value="{{ persistValues.places }}" required>
+                </div>
+                {% if flash.errors.places %}
+                    <span class="help-block">{{ flash.errors.places }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Envoyer">
+            </div>
+        </form>
+    </div>
+{% endblock %}
