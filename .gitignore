@@ -1,4 +1,4 @@
 .idea/
-src/conf/
+src/conf
 vendor/
 composer.lock
