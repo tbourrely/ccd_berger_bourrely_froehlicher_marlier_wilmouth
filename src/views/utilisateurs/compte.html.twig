@@ -19,7 +19,9 @@
                                         <div class="form-group col-sm-5">
                                             <select class="center-block" id="select" onchange="change();" name="avatar" style="background: #fff url('{{ base_url() }}/assets/img/user/{{ user.img }}.jpg') 0 0 no-repeat; width: 130px; height: 133px;">
                                                 {% for i in 0..28 %}
-                                                    <option value="{{ i }}" style="background: #fff url('{{ base_url() }}/assets/img/user/{{ i }}.jpg') 0 0 no-repeat; width: 111px; height: 133px; padding: 0;"></option>
+                                                    <option value="{{ i }}" style="background: #fff url('{{ base_url() }}/assets/img/user/{{ i }}.jpg') 0 0 no-repeat; width: 111px; height: 133px; padding: 0;">
+                                                       Avatar {{ i }}
+                                                    </option>
                                                 {% endfor %}
                                             </select>
                                             <input type="submit" class="btn btn-sm btn-primary" value="Sauvegarder Avatar">
@@ -57,7 +59,7 @@
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                                 </span>
-                                <input type="password" name="password" id="password" class="form-control" placeholder="Mot de passe" value="{{ persistValues.password }}">
+                                <input type="password" name="password" id="password" class="form-control" value="{{ persistValues.password }}">
                             </div>
                             {% if flash.errors.password %}
                                 <span class="help-block">{{ flash.errors.password }}</span>
