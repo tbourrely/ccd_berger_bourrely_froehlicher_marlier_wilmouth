@@ -44,6 +44,7 @@ $(function() {
 
 
     list.on('click', 'li', function(){
+        $("#user_container").empty();
         $('#user_list_dropdown_input').val(this.innerHTML);
         retrieveId($('#user_list_dropdown_input').val());
         list.empty();
