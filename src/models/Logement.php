@@ -17,4 +17,8 @@ class Logement extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
+    public function groupes() {
+        return $this->hasMany('\charly\models\Groupe', 'idLogement');
+    }
+
 }
