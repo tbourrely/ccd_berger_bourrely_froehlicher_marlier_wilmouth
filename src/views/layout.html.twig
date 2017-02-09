@@ -23,6 +23,25 @@
 
                 <a class="navbar-brand" href="">Un toit pour tous</a>
             </div>
+
+            <div class="dropdown navbar-form navbar-right">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropDownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropDowenUser">
+                    {% if auth %}
+                        <li><a href="{{ path_for('utilisateur.compte', { 'id': auth }) }}">Mon compte</a></li>
+                        <li><a href="{{ path_for('viewGroup') }}">Mon groupe</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{ path_for('utilisateur.deconnexion') }}">Déconnexion</a></li>
+                    {% else %}
+                        <li><a href="{{ path_for('utilisateur.connexion.form') }}">Connexion</a></li>
+                        <li><a href="{{ path_for('utilisateur.inscription.form') }}">Créer un compte</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
             <form action="#" method="post" class="navbar-form navbar-right">
                 {{ csrf() }}
                 <div class="form-group">
@@ -35,6 +54,7 @@
                     <li ><a href="{{ path_for('index') }}">Accueil</a></li>
                     <li ><a href="{{ path_for('createGroup')}}">Créer groupe</a></li>
                     <li ><a href="{{ path_for('listUsers') }}">Liste Utilisateurs</a></li>
+                    <li ><a href="{{ path_for('listLogement') }}">Liste Logements</a></li>
                 </ul>
             </div>
         </div>

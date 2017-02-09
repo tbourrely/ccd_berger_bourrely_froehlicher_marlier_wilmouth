@@ -15,7 +15,7 @@ use Slim\Http\Response;
 /**
  * Middleware de CSRF
  * Class CsrfMiddleware
- * @package coolracing\middlewares
+ * @package charly\middlewares
  */
 class CsrfMiddleware
 {

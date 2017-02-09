@@ -14,7 +14,7 @@ use Slim\Http\Response;
 /**
  * Middleware de valeurs persistantes dans les formulaires
  * Class PersistentValuesMiddleware
- * @package coolracing\middlewares
+ * @package charly\middlewares
  */
 class PersistentValuesMiddleware
 {

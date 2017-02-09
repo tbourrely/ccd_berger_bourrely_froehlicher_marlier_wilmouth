@@ -12,17 +12,17 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Middleware de messages flash
- * Class FlashMiddleware
+ * Middleware de verification de compte
+ * Class AuthMiddleware
  * @package charly\middlewares
  */
-class FlashMiddleware
+class AuthMiddleware
 {
 
     private $twig;
 
     /**
-     * FlashMiddleware constructor.
+     * AuthMiddleware constructor.
      * @param \Twig_Environment $twig
      */
     public function __construct(\Twig_Environment $twig)
@@ -39,10 +39,7 @@ class FlashMiddleware
      */
     public function __invoke(Request $request, Response $response, $next)
     {
-        $this->twig->addGlobal('flash', isset($_SESSION['flash']) ? $_SESSION['flash'] : []);
-        if (isset($_SESSION['flash'])) {
-            unset($_SESSION['flash']);
-        }
+        $this->twig->addGlobal('auth', isset($_SESSION['user']) ? $_SESSION['user'] : []);
         return $next($request, $response);
     }
 

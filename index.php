@@ -3,6 +3,7 @@ use charly\DatabaseFactory;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 use charly\controllers\GroupeController;
+
 // Demarrage de la session
 session_start();
 
@@ -45,8 +46,8 @@ $container['flash'] = function () {
     return new \Slim\Flash\Messages();
 };
 
-
 // Initialisation de la protection csrf dans le container
+
 $container['csrf'] = function () {
     return new Slim\Csrf\Guard();
 };
@@ -64,6 +65,8 @@ $app->add(new \charly\middlewares\PersistentValuesMiddleware($container->views->
 // Ajouts du Middleware de protection csrf
 $app->add(new \charly\middlewares\CsrfMiddleware($container->views->getEnvironment(), $container->csrf));
 $app->add($container->get('csrf'));
+// Ajouts du Middleware de verification de connexion
+$app->add(new \charly\middlewares\AuthMiddleware($container->views->getEnvironment()));
 
 $app->get('/', \charly\controllers\ExempleController::class . ':index')->setName('index');
 
@@ -72,7 +75,20 @@ $app->group('/utilisateur', function() {
     $this->get('/list-json/{search}', \charly\controllers\UtilisateursController::class . ':listUsersJson')->setName('listUsersJson');
     $this->get('/name/{name}', \charly\controllers\UtilisateursController::class . ':retrieveId')->setName('retrieveId');
     $this->get('/details/{id:[0-9]+}', \charly\controllers\UtilisateursController::class . ':detailsUser')->setName('detailsUser');
-    $this->get('/inscription', \charly\controllers\UtilisateursController::class . ':inscriptionForm')->setName('inscription.form');
+    $this->get('/inscription', \charly\controllers\UtilisateursController::class . ':inscriptionForm')->setName('utilisateur.inscription.form');
+    $this->post('/inscription', \charly\controllers\UtilisateursController::class . ':inscription')->setName('utilisateur.inscription');
+    $this->get('/{id:[0-9]+}', \charly\controllers\UtilisateursController::class . ':compte')->setName('utilisateur.compte');
+    $this->get('/connexion', \charly\controllers\UtilisateursController::class . ':connexionForm')->setName('utilisateur.connexion.form');
+    $this->post('/connexion', \charly\controllers\UtilisateursController::class . ':connexion')->setName('utilisateur.connexion');
+    $this->get('/deconnexion', \charly\controllers\UtilisateursController::class . ':deconnexion')->setName('utilisateur.deconnexion');
+    $this->post('/edit/avatar', \charly\controllers\UtilisateursController::class . ':avatar')->setName('utilisateur.avatar');
+    $this->post('/edit', \charly\controllers\UtilisateursController::class . ':editer')->setName('utilisateur.edit');
+});
+
+$app->group('/logement',function (){
+    $this->get('/list',\charly\controllers\LogementController::class.':listLogement')->setName('listLogement');
+    $this->get('/details/{id:[0-9]+}', \charly\controllers\LogementController::class . ':detailsLogement')->setName('detailsLogement');
+
 });
 
 /*
@@ -86,5 +102,11 @@ $app->group('/evenements', function () {
 */
 
 $app->get('/group/create', GroupeController::class . ':interfaceCreationGroupe')->setName('createGroup');
+
+
+$app->post('/group/create', GroupeController::class . ':postCreerGroupe')->setName('createGroupForm');
+
+
+$app->get('/group/view', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
 
 $app->run();

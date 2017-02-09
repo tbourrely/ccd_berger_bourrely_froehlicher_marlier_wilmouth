@@ -67,6 +67,19 @@ class BaseController
     }
 
     /**
+     * Fonction qui genere des sessions
+     * @param $key
+     * @param $value
+     */
+    public function createSession($key, $value)
+    {
+        if (isset($_SESSION[$key])) {
+            $_SESSION[$key] = [];
+        }
+        $_SESSION[$key] = $value;
+    }
+
+    /**
      * Getter d'attributs
      * @param $name
      * @return mixed
