@@ -76,6 +76,16 @@ class GroupeController extends BaseController
                 $tab['groupe'] = $g;
                 $tab['invitation'] = Invitation::where('idGroupe', $g->id)->with('user')->get();
 
+                $pageURL = 'http';
+                if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+                $pageURL .= "://";
+                if ($_SERVER["SERVER_PORT"] != "80") {
+                    $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"];
+                } else {
+                    $pageURL .= $_SERVER["SERVER_NAME"];
+                }
+
+                $tab['url'] = $pageURL;
                 $this->render($response, 'group\view', $tab);
 
             } else {

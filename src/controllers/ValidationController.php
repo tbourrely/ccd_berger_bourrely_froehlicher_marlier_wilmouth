@@ -23,7 +23,7 @@ class ValidationController extends BaseController
             $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->where('id', $request->getParam('validate'))->first();
             if(!is_null($g)){
                 $l=Logement::where('id', 1)->first();
-                if(isset($l)){
+                if(!is_null($l)){
                     if($l->places==$g->nbUsers){
                         $g->status='complet';
                         $g->save();
