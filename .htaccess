@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# RewriteBase indispensable sur webetu :
+
+# RewriteBase /www/canals5/giftbox
+
+RewriteRule ^sql(/.*|)$ - [NC,F]
+RewriteRule ^src(/.*|)$ - [NC,F]
+RewriteRule ^vendor(/.*|)$ - [NC,F]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]

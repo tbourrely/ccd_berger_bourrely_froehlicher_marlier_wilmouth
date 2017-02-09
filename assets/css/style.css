@@ -1,0 +1,3 @@
+textarea{
+    resize: none; /* fix resize of textarea */
+}

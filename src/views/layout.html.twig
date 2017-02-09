@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CoolRacing {% if title is defined %} - {{ title }}{% endif %}</title>
+    <link rel="stylesheet" href="{{ base_url() }}/assets/css/style.css">
+
+    <link rel="stylesheet" href="{{ base_url() }}/assets/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{{ base_url() }}/assets/pickadate/themes/default.css">
+    <link rel="stylesheet" href="{{ base_url() }}/assets/pickadate/themes/default.date.css">
+    <link rel="stylesheet" href="{{ base_url() }}/assets/pickadate/themes/default.time.css">
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path_for('index') }}">CoolRacing</a>
+            </div>
+            <form action="{{ path_for('evenements.recherche') }}" method="post" class="navbar-form navbar-right">
+                {{ csrf() }}
+                <div class="form-group">
+                    <input type="text" name="keyword" class="form-control" placeholder="Rechercher">
+                </div>
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            </form>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{{ path_for('index') }}">Accueil</a></li>
+                    <li><a href="{{ path_for('evenements', {'order' : 'asc'}) }}">Evenements</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            {% if flash.success %}
+                <div class="alert alert-success">
+                    {{ flash.success }}
+                </div>
+            {% endif %}
+
+            {% if flash.error %}
+                <div class="alert alert-danger">
+                    {{ flash.error }}
+                </div>
+            {% endif %}
+
+            {% if flash.info %}
+                <div class="alert alert-info">
+                    {{ flash.info }}
+                </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <script src="{{ base_url() }}/assets/pickadate/picker.js"></script>
+    <script src="{{ base_url() }}/assets/pickadate/picker.time.js"></script>
+    <script src="{{ base_url() }}/assets/pickadate/picker.date.js"></script>
+    <!--    HOMEMADE SCRIPT    -->
+    <script src="{{ base_url() }}/assets/js/script.js"></script>
+    <!--    VICOPO API    -->
+    <script src="https://vicopo.selfbuild.fr/api.min.js"></script>
+    <script src="{{ base_url() }}/assets/bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+</html>
