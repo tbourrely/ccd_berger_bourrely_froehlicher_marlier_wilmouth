@@ -22,8 +22,8 @@ class ValidationController extends BaseController
         if(isset($_SESSION['user']['id'])) {
             $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->where('id', $request->getParam('validate'))->first();
             if(!is_null($g)){
-                $l=Logement::where('id', 1)->first();
-                if(isset($l)){
+                $l=Logement::where('id', $g->idLogement)->first();
+                if(!is_null($l)){
                     if($l->places==$g->nbUsers){
                         $g->status='complet';
                         $g->save();
@@ -52,7 +52,7 @@ class ValidationController extends BaseController
     public function genererURL(RequestInterface $request, ResponseInterface $response, $args){
         $token = uniqid();
         $invitation = Invitation::where('id', $args['id'])->first();
-        if(isset($invitation)) {
+        if(!is_null($invitation)) {
             $invitation->url = $token;
             $invitation->save();
             $this->flash('info', 'Url géneré');
@@ -100,7 +100,7 @@ class ValidationController extends BaseController
 
     public function accepterInvitation(RequestInterface $request, ResponseInterface $response, $args){
         $invitation = Invitation::where('url', $args['id'])->first();
-        if(isset($invitation)) {
+        if(!is_null($invitation)) {
             if($invitation->status!='accepte') {
                 $invitation->status = "accepte";
                 $invitation->save();
@@ -119,14 +119,19 @@ class ValidationController extends BaseController
     public function refuserInvitation(RequestInterface $request, ResponseInterface $response, $args){
         $invitation = Invitation::where('url', $args['id'])->first();
         $g=Groupe::where('id',$invitation->idGroupe);
-        if(isset($g)) {
-            if (isset($invitation)) {
+        if(!is_null($g)) {
+            if (!is_null($invitation)) {
                 if ($invitation->status != 'accepte') {
-                    $invitation->save();
                     $g->status="ouvert";
                     $g->nbUsers=$g->nbUsers-1;
                     $invitation->delete();
                     $g->save();
+                    $invs=Invitation::where('idGroupe',$g->id)->get();
+                    foreach ($invs as $i){
+                        $i->status=0;
+                        $i->url=0;
+                        $i->save();
+                    }
                     $this->flash('info', 'Vous avez refuser l\'invitation.');
                     return $this->redirect($response, 'utilisateur.connexion.form');
                 } else {
@@ -148,7 +153,8 @@ class ValidationController extends BaseController
         $g = Groupe::where('id', $i->idGroupe)->with('proprio', 'logementG')->first();
 
         $tab['groupe'] = $g;
-        $tab['i'] = $i;
+        $tab['vraiInvitation'] = $i;
+        $tab['invitation'] = Invitation::where('idGroupe', $g->id)->with('user')->get();
         $this->render($response, 'group/join', $tab);
     }
 }

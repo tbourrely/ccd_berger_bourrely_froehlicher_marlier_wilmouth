@@ -16,6 +16,14 @@
                     <div class="co-sm-9">
                         <h3>Nom : {{ user.nom }}</h3>
                         <p>Description : {{ user.message }}</p>
+                        <p>Note : {% if user.moy != 0 %}{{ user.moy }}{% else %}Pas de Note{% endif %}</p>
+                    </div>
+                    <div class="rating"><!--
+                       --><a href="{{ path_for('rateUser',{'id' : user.id, 'note' : 5}) }}" title="Donner 5 étoiles">☆</a><!--
+                       --><a href="{{ path_for('rateUser',{'id' : user.id, 'note' : 4}) }}" title="Donner 4 étoiles">☆</a><!--
+                       --><a href="{{ path_for('rateUser',{'id' : user.id, 'note' : 3}) }}" title="Donner 3 étoiles">☆</a><!--
+                       --><a href="{{ path_for('rateUser',{'id' : user.id, 'note' : 2}) }}" title="Donner 2 étoiles">☆</a><!--
+                       --><a href="{{ path_for('rateUser',{'id' : user.id, 'note' : 1}) }}" title="Donner 1 étoile">☆</a>
                     </div>
                 </div>
             </div>

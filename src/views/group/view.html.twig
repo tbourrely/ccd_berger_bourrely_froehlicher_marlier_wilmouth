@@ -26,15 +26,18 @@
                         <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsUser',{'id' : groupe.proprio.id}) }}" role="button">voir profil</a></p>
                         <h3 style="color: red">Proprietaire</h3>
                     </div>
+
                     <div class="row">
 
+                        {% if groupe.status == 'ouvert'%}
                         <input id="user_list_dropdown_input" type="text" name="keyword" class="form-control col-md-12" placeholder="Rechercher">
                         <ul id="user_list_dropdown" class="col-md-12">
                         </ul>
 
-                        <div id="user_container"">
+                        <div id="user_container">
 
                     </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-sm-9 text-center">
@@ -44,7 +47,7 @@
                         <div id="user_container" class="col-sm-4 text-center">
                             <div class="jumbotron" >
                                 <div class="col-sm-12 col-xs-6">
-                                    <img src="{{ base_url() }}/assets/img/user/{{ i.user.id }}.jpg">
+                                    <img src="{{ base_url() }}/assets/img/user/{{ i.user.img }}.jpg">
                                 </div>
                                 <div class="text-center">
                                     <h3>{{ i.user.nom }}</h3>
@@ -52,7 +55,7 @@
                                 <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsUser',{'id' : i.user.id}) }}" role="button">voir profil</a></p>
                                 {% if groupe.status == 'complet'%}
                                     {% if i.url == 0 %}
-                                        <form method="post" action="{{ path_for('generateURL', {'id' : i.id}) }}">
+                                        <form method="post" action="{{ url }}{{ path_for('generateURL', {'id' : i.id}) }}">
                                             {{ csrf() }}
                                             <input type="number" name="genererUrl" value="{{ i.id }}" hidden>
                                             <p><button class="btn btn-success btn-lg"  type="submit" role="button">Generer URL</button></p>
@@ -74,11 +77,13 @@
                                     {%  endif %}
                                 {% endif %}
 
-                                <form method="post" action="{{ path_for('supprimerUser') }}">
-                                    {{ csrf() }}
-                                    <input type="number" name="suppress" value="{{ i.user.id }}" hidden>
-                                    <p><button class="btn btn-danger btn-lg"  type="submit" role="button">supprimer</button></p>
-                                </form>
+                                {% if groupe.status == 'ouvert'%}
+                                    <form method="post" action="{{ path_for('supprimerUser') }}">
+                                        {{ csrf() }}
+                                        <input type="number" name="suppress" value="{{ i.user.id }}" hidden>
+                                        <p><button class="btn btn-danger btn-lg"  type="submit" role="button">supprimer</button></p>
+                                    </form>
+                                {% endif %}
                             </div>
                         </div>
                     {% endfor %}
@@ -98,13 +103,14 @@
                     <div class="caption">
                         <h3 style="text-align: center">Nombre de places : {{ groupe.logementG.places }}</h3>
                     </div>
-
+                    {% if groupe.status == 'ouvert' %}
                     <div class="text-center">
                         <form method="post" action="{{ path_for('supLogement') }}">
                             {{ csrf() }}
                             <button class="btn btn-danger">SUPPRIMER</button>
                         </form>
                     </div>
+                    {% endif %}
                 </div>
             {% else %}
                 <h3>Vous n'avez pas de logements actuellement</h3>

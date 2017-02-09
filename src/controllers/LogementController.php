@@ -51,7 +51,6 @@ class LogementController extends BaseController
 
     public function detailsLogement(RequestInterface $req, ResponseInterface $resp, $args){
         $tab['logement'] = \charly\models\Logement::where('id', $args['id'])->first();
-        $tab['note'] = round($tab['logement']->notations()->avg('note'),1);
         $this->render($resp, 'logement/detailsLogement',$tab);
     }
 
@@ -65,6 +64,10 @@ class LogementController extends BaseController
                     $n->idLogement=$args['id'];
                     $n->note=$args['note'];
                     $n->save();
+
+                    $g->moy=round($g->notations()->avg('note'),1);
+                    $g->save();
+
                     return $this->redirect($resp, 'detailsLogement',['id' => $g->id]);
                 }
             }

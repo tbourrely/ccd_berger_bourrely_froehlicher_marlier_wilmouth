@@ -84,6 +84,7 @@ $app->group('/utilisateur', function() {
     $this->get('/deconnexion', \charly\controllers\UtilisateursController::class . ':deconnexion')->setName('utilisateur.deconnexion');
     $this->post('/edit/avatar', \charly\controllers\UtilisateursController::class . ':avatar')->setName('utilisateur.avatar');
     $this->post('/edit', \charly\controllers\UtilisateursController::class . ':editer')->setName('utilisateur.edit');
+    $this->get('/rate/{id:[0-9]+}/{note:[0-9]+}', \charly\controllers\UtilisateursController::class . ':rateUser')->setName('rateUser');
 });
 
 $app->group('/logement',function (){
