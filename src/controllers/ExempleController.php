@@ -27,7 +27,7 @@ class ExempleController extends BaseController
 
 
     public function index(RequestInterface $req, ResponseInterface $resp, $args){
-        echo "ok";
+        $this->render($resp, 'layout');
     }
 
     /**
