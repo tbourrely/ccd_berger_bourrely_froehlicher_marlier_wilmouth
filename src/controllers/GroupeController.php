@@ -133,6 +133,8 @@ class GroupeController extends BaseController
                if($user){
                    $group = Groupe::where('proprietaire', '=', $_SESSION['user']['id'])->first();
                    if($group){
+                       $group->nbUsers++;
+                       $group->save();
                        Invitation::updateOrCreate([
                            'idUser' => $user->id,
                            'idGroupe' => $group->id
@@ -162,7 +164,7 @@ class GroupeController extends BaseController
 
             if(!is_null($i)){
                 $i->delete();
-                $g->nbUsers=$g->nbUser-1;
+                $g->nbUsers-=1;
                 $g->save();
 
 
