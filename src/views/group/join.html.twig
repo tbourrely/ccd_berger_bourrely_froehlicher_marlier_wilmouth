@@ -4,9 +4,8 @@
 
 {% block content %}
     <div class="container">
-        <h1>Visualisation du groupe</h1>
+        <h1>Rejoindre un groupe</h1>
         <hr class="my-4">
-
 
         <div class="row">
             <div class="col-sm-12">
@@ -50,35 +49,6 @@
                                     <h3>{{ i.user.nom }}</h3>
                                 </div>
                                 <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsUser',{'id' : i.user.id}) }}" role="button">voir profil</a></p>
-                                {% if groupe.status == 'complet'%}
-                                    {% if i.url == 0 %}
-                                        <form method="post" action="{{ path_for('generateURL', {'id' : i.id}) }}">
-                                            {{ csrf() }}
-                                            <input type="number" name="genererUrl" value="{{ i.id }}" hidden>
-                                            <p><button class="btn btn-success btn-lg"  type="submit" role="button">Generer URL</button></p>
-                                        </form>
-                                    {% else %}
-
-
-                                        <div class="input-group">
-
-                                            <input type="text" id="to-copy" class="form-control" value="{{ i.url }}" placeholder="Search for...">
-
-                                            <span class="input-group-btn">
-
-                                            <button id="copy" class="btn btn-default" type="button"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
-                                          </span>
-
-                                        </div><!-- /input-group -->
-                                        <br>
-                                    {%  endif %}
-                                {% endif %}
-
-                                <form method="post" action="{{ path_for('supprimerUser') }}">
-                                    {{ csrf() }}
-                                    <input type="number" name="suppress" value="{{ i.user.id }}" hidden>
-                                    <p><button class="btn btn-danger btn-lg"  type="submit" role="button">supprimer</button></p>
-                                </form>
                             </div>
                         </div>
                     {% endfor %}
