@@ -2,7 +2,7 @@
 
 namespace charly\controllers;
 
-use charly\models\user;
+use charly\models\User;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Respect\Validation\Validator;
@@ -96,7 +96,7 @@ class UtilisateursController extends BaseController
                 return $this->redirect($response, 'utilisateur.connexion.form', $args, 400);
             }
         } else {
-            return $this->redirect($response, 'utilisateur.compte', $_SESSION['user']);
+            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
         }
     }
 
@@ -124,8 +124,25 @@ class UtilisateursController extends BaseController
 
     public function compte(RequestInterface $request, ResponseInterface $response, $args)
     {
-        var_dump($_SESSION['user']);
-        die();
+        if (isset($_SESSION['user'])) {
+            $user = User::where('id', $args['id'])->first();
+            $this->render($response, 'utilisateurs/compte', ['user' => $user]);
+        } else {
+            return $this->redirect($response, 'index');
+        }
+    }
+
+    public function avatar(RequestInterface $request, ResponseInterface $response, $args)
+    {
+        if (isset($_SESSION['user'])) {
+            $user = User::where('id', '=', $_SESSION['user'])->first();
+            $user->img = $request->getParam('avatar');
+            $user->save();
+            $this->flash('infos', "Avatar changé avec succès.");
+            return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
+        } else {
+            return $this->redirect($response, 'index');
+        }
     }
 
 }

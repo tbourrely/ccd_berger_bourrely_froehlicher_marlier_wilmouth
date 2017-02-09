@@ -79,6 +79,7 @@ $app->group('/utilisateur', function() {
     $this->get('/connexion', \charly\controllers\UtilisateursController::class . ':connexionForm')->setName('utilisateur.connexion.form');
     $this->post('/connexion', \charly\controllers\UtilisateursController::class . ':connexion')->setName('utilisateur.connexion');
     $this->get('/deconnexion', \charly\controllers\UtilisateursController::class . ':deconnexion')->setName('utilisateur.deconnexion');
+    $this->post('/avatar', \charly\controllers\UtilisateursController::class . ':avatar')->setName('utilisateur.avatar');
 });
 
 $app->group('/logement',function (){

@@ -58,7 +58,10 @@ $(function() {
         $('#ville').val(this.innerText).vicopoTargets().vicopoClean();
     });
 
-
-
-
 });
+
+function change() {
+    select = document.getElementById("select");
+    select.style.backgroundImage = select.options[select.selectedIndex].style.backgroundImage;
+}
+
