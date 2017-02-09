@@ -70,12 +70,14 @@ class GroupeController extends BaseController
 
             if(!is_null($g)){
                 $this->render($response, 'group\view');
+
             }else{
-                $this->flash('Vous n\'êtes pas proprietaire de ce groupe', $errors);
+                $this->flash('info', 'Vous devez avoir créé un groupe');
                 return $this->redirect($response, 'createGroup', $args, 400);
             }
 
         }else{
+            $this->flash('info', 'Vous devez être connecté');
             return $this->redirect($response, 'utilisateur.connexion.form');
         }
     }
