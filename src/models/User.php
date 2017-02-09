@@ -22,4 +22,8 @@ class User extends Model
         return $this->hasMany('charly\models\Invitation','idUser');
     }
 
+    public function notations(){
+        return $this->hasMany('charly\models\NotationUser','idUser');
+    }
+
 }

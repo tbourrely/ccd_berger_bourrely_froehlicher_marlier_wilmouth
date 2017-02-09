@@ -2,6 +2,7 @@
 
 namespace charly\controllers;
 
+use charly\models\NotationUser;
 use charly\models\User;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -203,6 +204,30 @@ class UtilisateursController extends BaseController
             return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']['id']]);
         } else {
             return $this->redirect($response, 'index');
+        }
+    }
+
+
+    public function rateUser(RequestInterface $request, ResponseInterface $response, $args)
+    {
+        if(isset($_SESSION['user'])){
+            if(isset($args['id']) && isset($args['note'])){
+                $g = User::where('id',$args['id'])->first();
+                if(!is_null($g)){
+                    $n = new NotationUser();
+                    $n->idUser=$args['id'];
+                    $n->note=$args['note'];
+                    $n->save();
+
+                    $g->moy=round($g->notations()->avg('note'),1);
+                    $g->save();
+
+                    return $this->redirect($response, 'detailsUser',['id' => $g->id]);
+                }
+            }
+        }else {
+            $this->flash('info', 'Vous devez être connecté');
+            return $this->redirect($response, 'utilisateur.connexion.form');
         }
     }
 
