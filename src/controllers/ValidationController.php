@@ -105,14 +105,14 @@ class ValidationController extends BaseController
                 $invitation->status = "accepte";
                 $invitation->save();
                 $this->flash('info', 'Vous avez accepter l\'invitation.');
-                return $this->redirect($response, 'utilisateur.connexion.form');
+                return $this->redirect($response, 'index');
             }else{
                 $this->flash('info', 'Vous avez déjà répondu à l\'invitation.');
-                return $this->redirect($response, 'utilisateur.connexion.form');
+                return $this->redirect($response, 'index');
             }
         }else{
             $this->flash('info', 'Invitation invalide');
-            return $this->redirect($response, 'utilisateur.connexion.form');
+            return $this->redirect($response, 'index');
         }
     }
 
@@ -133,18 +133,18 @@ class ValidationController extends BaseController
                         $i->save();
                     }
                     $this->flash('info', 'Vous avez refuser l\'invitation.');
-                    return $this->redirect($response, 'utilisateur.connexion.form');
+                    return $this->redirect($response, 'index');
                 } else {
                     $this->flash('info', 'Vous avez déjà répondu à l\'invitation.');
-                    return $this->redirect($response, 'utilisateur.connexion.form');
+                    return $this->redirect($response, 'index');
                 }
             } else {
                 $this->flash('info', 'Invitation invalide');
-                return $this->redirect($response, 'utilisateur.connexion.form');
+                return $this->redirect($response, 'index');
             }
         }else {
             $this->flash('info', 'Groupe inexistant');
-            return $this->redirect($response, 'utilisateur.connexion.form');
+            return $this->redirect($response, 'index');
         }
     }
 
