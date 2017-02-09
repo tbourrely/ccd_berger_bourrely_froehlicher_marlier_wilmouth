@@ -39,6 +39,12 @@ class UtilisateursController extends BaseController
             if ($request->getParam('password_verify') != $request->getParam('password')) {
                 $errors['password_verify'] = "Les mots de passe ne correspondent pas.";
             }
+
+            $userExists = User::where('email', '=', $request->getParam('email'))->first();
+            if (!is_null($userExists)) {
+                $errors['email'] = "Email déjà utilisé.";
+            }
+
             if (empty($errors)) {
                 $params = $request->getParams();
                 unset($params['csrf_name']);
@@ -51,7 +57,7 @@ class UtilisateursController extends BaseController
                 return $this->redirect($response, 'utilisateur.compte', ['id' => $idUser->id]);
             } else {
                 $this->flash('errors', $errors);
-                return $this->redirect($response, 'inscription.form', $args, 400);
+                return $this->redirect($response, 'utilisateur.inscription.form', $args, 400);
             }
         } else {
             return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']['id']]);
