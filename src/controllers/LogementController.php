@@ -9,6 +9,7 @@
 namespace charly\controllers;
 
 
+use charly\models\Groupe;
 use charly\models\Logement;
 use charly\models\Notation;
 use Psr\Http\Message\RequestInterface;
@@ -28,6 +29,22 @@ class LogementController extends BaseController
         $tab['note'] = round($tab['logement']->notations()->avg('note'),1);
         $this->render($resp, 'logement/detailsLogement',$tab);
     }
+
+    public function listLogementFilter(RequestInterface $request, ResponseInterface $response, $args){
+        if (isset($_SESSION['user'])){
+            $nbUsers = Groupe::where('proprietaire', '=', $_SESSION['user']['id'])->first()->nbUsers;
+            if($nbUsers){
+                $tab["logements"] = Logement::where('places', '=', $nbUsers)->get();
+                $tab["button"]="filter";
+                $this->render($response,'logement/listLogement',$tab);
+            }else{
+                echo "error nbusers";
+            }
+        }else{
+            echo "non connecte";
+        }
+    }
+
 
     public function rateLogement(RequestInterface $req, ResponseInterface $resp, $args){
         if(isset($_SESSION['user'])){

@@ -148,6 +148,8 @@ class GroupeController extends BaseController
                        return $this->redirect($response, 'viewGroup', $args, 400);
                    }
                    if($group){
+                       $group->nbUsers++;
+                       $group->save();
                        Invitation::updateOrCreate([
                            'idUser' => $user->id,
                            'idGroupe' => $group->id
@@ -182,7 +184,7 @@ class GroupeController extends BaseController
                     return $this->redirect($response, 'viewGroup', $args, 400);
                 }
                 $i->delete();
-                $g->nbUsers=$g->nbUser-1;
+                $g->nbUsers-=1;
                 $g->save();
 
 

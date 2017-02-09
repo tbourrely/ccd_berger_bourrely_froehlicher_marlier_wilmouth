@@ -1,5 +1,18 @@
-textarea{
-    resize: none; /* fix resize of textarea */
+#user_list_dropdown li{
+    list-style: none;
+    height: 3em;
+    line-height: 3em;
+    background-color: #F5F5F5;
+    border-radius: 2px;
+    font-weight: bold;
+}
+#user_list_dropdown li:not(:last-of-type){
+    border-bottom:solid 2px #eeeeee;
+}
+#user_list_dropdown li:hover{
+    cursor: pointer;
+    background-color: #757575;
+    color: #eeeeee;
 }
 
 .rating {

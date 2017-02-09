@@ -34,11 +34,11 @@
 
                         <div id="user_container"">
 
-                        </div>
                     </div>
                 </div>
-                <div class="col-sm-9 text-center">
-                    <div class="row">
+            </div>
+            <div class="col-sm-9 text-center">
+                <div class="row">
 
                     {% for i in invitation %}
                         <div id="user_container" class="col-sm-4 text-center">
@@ -50,6 +50,30 @@
                                     <h3>{{ i.user.nom }}</h3>
                                 </div>
                                 <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsUser',{'id' : i.user.id}) }}" role="button">voir profil</a></p>
+                                {% if groupe.status == 'complet'%}
+                                    {% if i.url == 0 %}
+                                        <form method="post" action="{{ path_for('generateURL', {'id' : i.id}) }}">
+                                            {{ csrf() }}
+                                            <input type="number" name="genererUrl" value="{{ i.id }}" hidden>
+                                            <p><button class="btn btn-success btn-lg"  type="submit" role="button">Generer URL</button></p>
+                                        </form>
+                                    {% else %}
+
+
+
+                                        </button>
+                                        <div class="input-group">
+                                            <input type="text" id="to-copy" class="form-control" value="{{ path_for('index') }}{{ i.url }}" placeholder="Search for...">
+                                            <span class="input-group-btn">
+
+                                            <button id="copy" class="btn btn-default" type="button"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
+                                          </span>
+
+                                        </div><!-- /input-group -->
+                                        <br>
+                                    {%  endif %}
+                                {% endif %}
+
                                 <form method="post" action="{{ path_for('supprimerUser') }}">
                                     {{ csrf() }}
                                     <input type="number" name="suppress" value="{{ i.user.id }}" hidden>
@@ -59,35 +83,44 @@
                         </div>
                     {% endfor %}
 
-                    </div>
                 </div>
-
             </div>
 
-
-            <div class="center-block col-sm-12">
-                <h2>Logement</h2>
-                <hr class="my-4">
-                {% if groupe.logementG.id %}
-                    <div class="thumbnail" style="background-color:#eee " >
-                        <img src="{{ base_url() }}/assets/img/apart/{{ groupe.logementG.id }}.jpg" style="height: 20em">
-                        <div class="caption">
-                            <h3 style="text-align: center">Nombre de places : {{ groupe.logementG.places }}</h3>
-                        </div>
-
-                        <div class="text-center">
-                            <form method="post" action="{{ path_for('supLogement') }}">
-                                {{ csrf() }}
-                                <button class="btn btn-danger">SUPPRIMER</button>
-                            </form>
-                        </div>
-                    </div>
-                {% else %}
-                    <h3>Vous n'avez pas de logements actuellement</h3>
-                    <a class="btn btn-success" href="{{ path_for('listLogement') }}">Choisir un logement</a>
-                {% endif %}
-            </div>
         </div>
 
+
+        <div class="center-block col-sm-12">
+            <h2>Logement</h2>
+            <hr class="my-4">
+            {% if groupe.logementG.id %}
+                <div class="thumbnail" style="background-color:#eee " >
+                    <img src="{{ base_url() }}/assets/img/apart/{{ groupe.logementG.id }}.jpg" style="height: 20em">
+                    <div class="caption">
+                        <h3 style="text-align: center">Nombre de places : {{ groupe.logementG.places }}</h3>
+                    </div>
+
+                    <div class="text-center">
+                        <form method="post" action="{{ path_for('supLogement') }}">
+                            {{ csrf() }}
+                            <button class="btn btn-danger">SUPPRIMER</button>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <h3>Vous n'avez pas de logements actuellement</h3>
+                <a class="btn btn-success" href="{{ path_for('listLogement') }}">Choisir un logement</a>
+            {% endif %}
+        </div>
+        {% if groupe.status == 'ouvert' %}
+            <div class="text-center">
+                <form method="post" action="{{ path_for('validateGroup') }}">
+                    {{ csrf() }}
+
+                    <input type="number" name="validate" value="{{ groupe.id }}" hidden>
+                    <button class="btn btn-success">VALIDER</button>
+                </form>
+            </div>
+            <br>
+        {% endif %}
     </div>
 {% endblock %}

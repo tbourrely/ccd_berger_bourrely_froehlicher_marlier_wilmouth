@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Un toit pour tous {% if title is defined %} - {{ title }}{% endif %}</title>
+    <link rel="stylesheet" href="{{ base_url() }}/assets/css/style.css">
 
     <link rel="stylesheet" href="{{ base_url() }}/assets/bootstrap/css/bootstrap.min.css">
 
@@ -96,9 +97,11 @@
     <!--    HOMEMADE SCRIPT    -->
     <script src="{{ base_url() }}/assets/js/dropdown_users.js"></script>
     <script src="{{ base_url() }}/assets/js/script.js"></script>
-    <!--    VICOPO API    -->
-    <script src="https://vicopo.selfbuild.fr/api.min.js"></script>
+    <script src="{{ base_url() }}/assets/js/dropdown_users.js"></script>
+
     <script src="{{ base_url() }}/assets/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="{{ base_url() }}/assets/js/copy.js"></script>
     <script>
         var path = '{{ base_url() }}';
     </script>

@@ -6,6 +6,13 @@
     <div class="col-md-12">
         <div class="page-header">
             <h1>Liste de logement</h1>
+
+            {% if not button %}
+                <a class="btn btn-sm btn-primary" href="{{ path_for('listLogementFilter') }}">nombre de places similaire</a>
+            {% else %}
+                <a class="btn btn-sm btn-primary" href="{{ path_for('listLogement') }}">tous les logements</a>
+            {% endif %}
+
         </div>
         <div class="row">
             {% for l in logements %}
