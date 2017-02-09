@@ -9,10 +9,12 @@
 namespace charly\controllers;
 
 use charly\models\ContenuGroupe;
+use charly\models\User;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Respect\Validation\Validator;
 use charly\models\Groupe;
+use charly\models\Invitation;
 
 
 class GroupeController extends BaseController
@@ -66,10 +68,13 @@ class GroupeController extends BaseController
         $errors = [];
 
         if(isset($_SESSION['user'])){
-            $g = Groupe::where('proprietaire', $_SESSION['user'])->first();
+            $g = Groupe::where('proprietaire', $_SESSION['user'])->with('proprio')->first();
 
             if(!is_null($g)){
-                $this->render($response, 'group\view');
+                $tab['groupe'] = $g;
+                $tab['invitation'] = Invitation::where('idGroupe', $g->id )->with('user')->get();
+
+                $this->render($response, 'group\view', $tab);
 
             }else{
                 $this->flash('info', 'Vous devez avoir créé un groupe');

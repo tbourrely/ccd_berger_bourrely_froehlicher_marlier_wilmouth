@@ -17,4 +17,9 @@ class User extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'nom', 'message', 'email', 'password', 'age', 'img'];
     public $timestamps = false;
+
+    public function invitation(){
+        return $this->hasMany('charly\models\Invitation','idUser');
+    }
+
 }
