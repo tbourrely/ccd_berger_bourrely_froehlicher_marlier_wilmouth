@@ -1,0 +1,43 @@
+{% extends "layout.html.twig" %}
+
+{% set title = "Connexion" %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>Connexion</h1>
+        </div>
+
+        <form action="{{ path_for('utilisateur.connexion') }}" method="post">
+            {{ csrf() }}
+
+            <div class="form-group{% if flash.errors.email %} has-error {% endif %}">
+                <label for="nom">Email: </label>
+                <div class="input-group">
+                    <span class="input-group-addon">@</span>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Email" value="{{ persistValues.email }}" required>
+                </div>
+                {% if flash.errors.email %}
+                    <span class="help-block">{{ flash.errors.email }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group{% if flash.errors.password %} has-error {% endif %}">
+                <label for="nom">Mot de passe: </label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                    </span>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Mot de passe" value="{{ persistValues.password }}" required>
+                </div>
+                {% if flash.errors.password %}
+                    <span class="help-block">{{ flash.errors.password }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group col-md-12">
+                <input type="submit" class="btn btn-primary" value="Créer mon compte">
+            </div>
+        </form>
+    </div>
+{% endblock %}

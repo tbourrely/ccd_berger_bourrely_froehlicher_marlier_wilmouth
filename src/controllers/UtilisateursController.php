@@ -12,7 +12,10 @@ class UtilisateursController extends BaseController
 
     public function inscriptionForm(RequestInterface $request, ResponseInterface $response, $args)
     {
-        $this->render($response, 'utilisateurs/inscription');
+        if (!isset($_SESSION['user'])) {
+            $this->render($response, 'utilisateurs/inscription');
+        }
+        return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
     }
 
     public function inscription(RequestInterface $request, ResponseInterface $response, $args)
@@ -38,12 +41,56 @@ class UtilisateursController extends BaseController
                 $params = $request->getParams();
                 unset($params['csrf_name']);
                 unset($params['csrf_value']);
+                unset($params['password_verify']);
+                $params['password'] = password_hash($params['password'], PASSWORD_DEFAULT, ['cost' => 10]);
                 $idUser = user::create($params);
+                $_SESSION['user'] = $idUser->id;
                 $this->flash('success', "Inscription réussie avec succès.");
                 return $this->redirect($response, 'utilisateur.compte', ['id' => $idUser->id]);
             } else {
                 $this->flash('errors', $errors);
                 return $this->redirect($response, 'inscription.form', $args, 400);
+            }
+        }
+        return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
+    }
+
+    public function connexionForm(RequestInterface $request, ResponseInterface $response, $args)
+    {
+        if (!isset($_SESSION['user'])) {
+            $this->render($response, 'utilisateurs/connexion');
+        }
+        return $this->redirect($response, 'utilisateur.compte', ['id' => $_SESSION['user']]);
+    }
+
+    public function connexion(RequestInterface $request, ResponseInterface $response, $args)
+    {
+        if (!isset($_SESSION['user'])) {
+            $errors = [];
+            if (!Validator::stringType()->validate($request->getParam('password'))) {
+                $errors['password'] = "Veuillez spécifier un mot de passe.";
+            }
+            if (!Validator::email()->validate($request->getParam('email'))) {
+                $errors['email'] = "Votre email n'est pas valide.";
+            }
+            if (empty($errors)) {
+                $user = user::where('email', '=', $request->getParam('email'))->first();
+                if (!is_null($user)) {
+                    if (password_verify($request->getParam('password'), $user->password)) {
+                        $_SESSION['user'] = $user->id;
+                        $this->flash('success', "Connexion réussie avec succès.");
+                        return $this->redirect($response, 'utilisateur.compte', ['id' => $user->id]);
+                    } else {
+                        $this->flash('errors', $errors);
+                        return $this->redirect($response, 'utilisateur.connexion.form', $args, 400);
+                    }
+                } else {
+                    $this->flash('error', "Connexion réussie avec succès.");
+                    return $this->redirect($response, 'index');
+                }
+            } else {
+                $this->flash('errors', $errors);
+                return $this->redirect($response, 'utilisateur.connexion.form', $args, 400);
             }
         }
         return $this->redirect($response, 'utilisateur.compte', $_SESSION['user']);
@@ -62,8 +109,20 @@ class UtilisateursController extends BaseController
 
     public function compte(RequestInterface $request, ResponseInterface $response, $args)
     {
-        var_dump($args);
+        var_dump(password_hash('charly', PASSWORD_DEFAULT, ['cost' => 10]));
         die();
+    }
+
+    public function listUsers(RequestInterface $req, ResponseInterface $resp, $args){
+        $tab['users'] = \charly\models\User::all();
+
+        $this->render($resp, 'utilisateurs/listUtilisateurs',$tab);
+    }
+
+    public function detailsUser(RequestInterface $req, ResponseInterface $resp, $args){
+        $tab['user'] = \charly\models\User::where('id', $args['id'])->first();
+
+        $this->render($resp, 'utilisateurs/detailsUtilisateur',$tab);
     }
 
 }
