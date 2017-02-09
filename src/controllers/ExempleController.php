@@ -6,7 +6,7 @@
  * Time: 16:09
  */
 
-namespace coolracing\controllers;
+namespace charly\controllers;
 
 use coolracing\models\Epreuve;
 use coolracing\models\Participant;

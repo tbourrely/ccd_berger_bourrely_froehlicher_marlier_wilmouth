@@ -6,7 +6,7 @@
  * Time: 16:53
  */
 
-namespace coolracing\controllers;
+namespace charly\controllers;
 
 use Psr\Http\Message\ResponseInterface;
 

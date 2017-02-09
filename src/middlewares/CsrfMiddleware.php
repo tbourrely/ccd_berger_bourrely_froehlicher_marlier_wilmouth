@@ -6,7 +6,7 @@
  * Time: 15:58
  */
 
-namespace coolracing\middlewares;
+namespace charly\middlewares;
 
 use Slim\Csrf\Guard;
 use Slim\Http\Request;
