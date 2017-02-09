@@ -25,6 +25,10 @@ class Groupe extends Model
         return $this->belongsTo('charly\models\User','proprietaire');
     }
 
+    public function logementG(){
+        return $this->belongsTo('charly\models\Logement','idLogement');
+    }
+
 
 
 }

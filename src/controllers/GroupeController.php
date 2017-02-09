@@ -11,6 +11,7 @@ namespace charly\controllers;
 use charly\models\ContenuGroupe;
 use charly\models\User;
 use charly\models\Logement;
+
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Respect\Validation\Validator;
@@ -66,7 +67,7 @@ class GroupeController extends BaseController
         $errors = [];
 
         if(isset($_SESSION['user'])){
-            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->with('proprio')->first();
+            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->with('proprio','logementG')->first();
 
             if(!is_null($g)){
                 $tab['groupe'] = $g;
@@ -94,7 +95,7 @@ class GroupeController extends BaseController
             if(!is_null($l)){
 
             }
-            $g = Groupe::where('proprietaire',$_SESSION['user'])->first();
+            $g = Groupe::where('proprietaire',$_SESSION['user']['id'])->first();
             if(!is_null($g)){
                 $g->idLogement = $l->id;
                 $g->save();
@@ -105,4 +106,31 @@ class GroupeController extends BaseController
             return $this->redirect($response, 'utilisateur.connexion.form');
         }
     }
+
+    public function add(RequestInterface $request, ResponseInterface $response, $args){
+       if(isset($_SESSION['user'])){
+           if(isset($args['id'])){
+               $user = User::where('id', '=', $args['id'])->first();
+               if($user){
+                   $group = Groupe::where('proprietaire', '=', $_SESSION['user']['id'])->first();
+                   if($group){
+                       Invitation::updateOrCreate([
+                           'idUser' => $user->id,
+                           'idGroupe' => $group->id
+                       ],[
+                           'status' => 0,
+                           'url' => 0
+                       ]);
+                       echo "inserted";
+                   }else{
+                       echo "error group";
+                   }
+               }else{
+                   echo "error user";
+               }
+           }
+       }
+    }
+
+
 }
