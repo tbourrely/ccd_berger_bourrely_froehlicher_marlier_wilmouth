@@ -164,7 +164,7 @@ class ValidationController extends BaseController
             $this->render($response, 'group/join', $tab);
         }else{
             $this->flash('info', 'Vous avez déjà réfusé l\'invitation.');
-            return $this->redirect($response, 'gestion.index');
+            return $this->redirect($response, 'index');
         }
     }
 }
