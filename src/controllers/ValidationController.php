@@ -15,7 +15,7 @@ class ValidationController extends BaseController
 {
     public function validerGroupe(RequestInterface $request, ResponseInterface $response, $args){
         if(isset($_SESSION['user'])) {
-            $g = Groupe::where('proprietaire', $_SESSION['user'])->where('id', $args['id'])->first();
+            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->where('id', $args['id'])->first();
             if(!is_null($g)){
                 $l=Logement::where('id',$g->idLogement);
                 if(isset($l)){

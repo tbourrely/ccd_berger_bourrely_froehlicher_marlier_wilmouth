@@ -8,6 +8,7 @@
 
 namespace charly\controllers;
 
+use charly\models\Logement;
 use charly\models\User;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -18,9 +19,9 @@ class GestionController extends BaseController
     public function index(RequestInterface $request, ResponseInterface $response, $args)
     {
          if (isset($_SESSION['user'])) {
-             $user = User::where('id', '=', $_SESSION['user'])->first();
-             if ($user->gestionnaire === 1) {
-
+             if ($_SESSION['user']['gest'] === 1) {
+                $logements = Logement::all();
+                $this->render($response, 'gestion/index', ['logements' => $logements]);
              } else {
                  $this->flash('error', 'Vous devez être gestionnaire pour accèder a cette page.');
                  return $this->redirect($response, 'index');

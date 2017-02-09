@@ -33,14 +33,14 @@ class GroupeController extends BaseController
                 $errors['description'] = "La description n'est pas valide.";
 
             }
-            $groupe=Groupe::where('proprietaire','=',$_SESSION['user'])->first();
+            $groupe=Groupe::where('proprietaire','=',$_SESSION['user']['id'])->first();
             if(isset($groupe)) {
                 $errors['groupedejacreer']="Vous avez déjà créer un groupe.";
             }
             if (empty($errors)) {
 
                 $g = new Groupe();
-                $g->proprietaire = $_SESSION['user'];
+                $g->proprietaire = $_SESSION['user']['id'];
                 $g->description = $request->getParam('description');
                 $g->nbUsers = 1;
                 $g->ouvert = 0;
@@ -62,7 +62,7 @@ class GroupeController extends BaseController
         $errors = [];
 
         if(isset($_SESSION['user'])){
-            $g = Groupe::where('proprietaire', $_SESSION['user'])->first();
+            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->first();
 
             if(!is_null($g)){
                 $this->render($response, 'group\view');
