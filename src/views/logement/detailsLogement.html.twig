@@ -14,6 +14,11 @@
                     <div class="caption">
                         <h4 style="text-align: center">Moyenne : {{ logement.moy }}</h4>
                         <h3 style="text-align: center">Nombre de places : {{ logement.places }}</h3>
+                        {% if logement.occupe == 1 %}
+                            <div class="text-center">
+                                <p class="btn btn-warning">OCCUPE</p>
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="rating"><!--
                        --><a href="{{ path_for('rateLogement',{'id' : logement.id, 'note' : 5}) }}" title="Donner 5 étoiles">☆</a><!--
@@ -24,7 +29,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    {% if auth %}
+                    {% if auth and logement.occupe == 0 %}
                         <form method="post" action="{{ path_for('ajoutLogement') }}">
                             {{ csrf() }}
                             <input type="number" name="logement" value="{{ logement.id }}" hidden>
