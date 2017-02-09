@@ -93,7 +93,7 @@ class GroupeController extends BaseController
             if(!is_null($l)){
 
             }
-            $g = Groupe::where('proprietaire',$_SESSION['user'])->first();
+            $g = Groupe::where('proprietaire',$_SESSION['user']['id'])->first();
             if(!is_null($g)){
                 $g->idLogement = $l->id;
                 $g->save();
