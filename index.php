@@ -63,7 +63,7 @@ $app->add(new \charly\middlewares\CsrfMiddleware($container->views->getEnvironme
 $app->add($container->get('csrf'));
 
 
-
+$app->get('/', \charly\controllers\ExempleController::class . ':index')->setName('index');
 
 /*
 $app->get('/', \charly\controllers\EvenementsController::class . ':index')->setName('index');

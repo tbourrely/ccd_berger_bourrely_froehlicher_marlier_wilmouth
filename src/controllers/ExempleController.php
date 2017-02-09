@@ -21,8 +21,14 @@ use Respect\Validation\Validator;
  * Class EpreuvesController
  * @package coolracing\controllers
  */
-class EpreuvesController extends BaseController
+class ExempleController extends BaseController
 {
+
+
+
+    public function index(RequestInterface $req, ResponseInterface $resp, $args){
+        echo "ok";
+    }
 
     /**
      * Fonction de rendu du formulaire d'inscription
