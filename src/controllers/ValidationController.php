@@ -142,6 +142,14 @@ class ValidationController extends BaseController
             return $this->redirect($response, 'utilisateur.connexion.form');
         }
     }
+
+    public function rejoindreGroupe(RequestInterface $request, ResponseInterface $response, $args){
+
+        $g = Groupe::where('id', $_SESSION['user']['id'])->with('proprio', 'logementG')->first();
+
+        $tab['users'] = \charly\models\User::all();
+        $this->render($response, 'group/join',$args['url']);
+    }
 }
 
 
