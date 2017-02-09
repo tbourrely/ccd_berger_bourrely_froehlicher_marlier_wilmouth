@@ -71,6 +71,11 @@ $app->group('/utilisateur', function() {
     $this->get('/list', \charly\controllers\UtilisateursController::class . ':listUsers')->setName('listUsers');
     $this->get('/details/{id:[0-9]+}', \charly\controllers\UtilisateursController::class . ':detailsUser')->setName('detailsUser');
     $this->get('/inscription', \charly\controllers\UtilisateursController::class . ':inscriptionForm')->setName('inscription.form');
+
+    $this->post('/inscription', \charly\controllers\UtilisateursController::class . ':inscription')->setName('utilisateur.inscription');
+    $this->get('/{id:[0-9]+}', \charly\controllers\UtilisateursController::class . ':compte')->setName('utilisateur.compte');
+    $this->get('/connexion', \charly\controllers\UtilisateursController::class . ':connexionForm')->setName('utilisateur.connexion.form');
+    $this->post('/connexion', \charly\controllers\UtilisateursController::class . ':connexion')->setName('utilisateur.connexion');
 });
 
 $app->group('/logement',function (){
