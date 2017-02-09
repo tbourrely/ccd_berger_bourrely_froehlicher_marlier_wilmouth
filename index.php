@@ -6,8 +6,6 @@ use charly\controllers\GroupeController;
 
 // Demarrage de la session
 session_start();
-$_SESSION['user'] = array();
-$_SESSION['user']['id']=1;
 
 // Importation de l'autoloader
 require 'vendor/autoload.php';
