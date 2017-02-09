@@ -65,6 +65,7 @@ $app->add($container->get('csrf'));
 $app->get('/', \charly\controllers\ExempleController::class . ':index')->setName('index');
 
 $app->group('/utilisateur', function() {
+    $this->get('/list', \charly\controllers\UtilisateursController::class . ':listUsers')->setName('listUsers');
     $this->get('/inscription', \charly\controllers\UtilisateursController::class . ':inscriptionForm')->setName('inscription.form');
 });
 
