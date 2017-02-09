@@ -152,4 +152,27 @@ class GroupeController extends BaseController
     }
 
 
+
+    public function supprimerUser(RequestInterface $request, ResponseInterface $response, $args){
+
+        if(isset($_SESSION['user']['id'])){
+
+            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->first();
+            $i = Invitation::where('idUser', $request->getParam('suppress'))->where('idGroupe', $g->id)->first();
+
+            if(!is_null($i)){
+                $i->delete();
+                $g->nbUsers=$g->nbUser-1;
+                $g->save();
+
+
+            }
+
+            return $this->redirect($response, 'viewGroup');
+
+
+
+
+        }
+    }
 }
