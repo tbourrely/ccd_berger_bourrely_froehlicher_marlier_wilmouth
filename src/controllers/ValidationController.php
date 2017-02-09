@@ -144,11 +144,12 @@ class ValidationController extends BaseController
     }
 
     public function rejoindreGroupe(RequestInterface $request, ResponseInterface $response, $args){
+        $i = Invitation::where('url', $args['url'])->first();
+        $g = Groupe::where('id', $i->idGroupe)->with('proprio', 'logementG')->first();
 
-        $g = Groupe::where('id', $_SESSION['user']['id'])->with('proprio', 'logementG')->first();
-
-        $tab['users'] = \charly\models\User::all();
-        $this->render($response, 'group/join',$args['url']);
+        $tab['groupe'] = $g;
+        $tab['i'] = $i;
+        $this->render($response, 'group/join', $tab);
     }
 }
 
