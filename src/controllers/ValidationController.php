@@ -20,7 +20,7 @@ class ValidationController extends BaseController
 {
     public function validerGroupe(RequestInterface $request, ResponseInterface $response, $args){
         if(isset($_SESSION['user']['id'])) {
-             $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->where('id', $request->getParam('validate'))->first();
+            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->where('id', $request->getParam('validate'))->first();
             if(!is_null($g)){
                 $l=Logement::where('id', 1)->first();
                 if(isset($l)){
@@ -98,4 +98,52 @@ class ValidationController extends BaseController
         }
     }
 
+    public function accepterInvitation(RequestInterface $request, ResponseInterface $response, $args){
+        $invitation = Invitation::where('url', $args['id'])->first();
+        if(isset($invitation)) {
+            if($invitation->status!='accepte') {
+                $invitation->status = "accepte";
+                $invitation->save();
+                $this->flash('info', 'Vous avez accepter l\'invitation.');
+                return $this->redirect($response, 'utilisateur.connexion.form');
+            }else{
+                $this->flash('info', 'Vous avez déjà répondu à l\'invitation.');
+                return $this->redirect($response, 'utilisateur.connexion.form');
+            }
+        }else{
+            $this->flash('info', 'Invitation invalide');
+            return $this->redirect($response, 'utilisateur.connexion.form');
+        }
+    }
+
+    public function refuserInvitation(RequestInterface $request, ResponseInterface $response, $args){
+        $invitation = Invitation::where('url', $args['id'])->first();
+        $g=Groupe::where('id',$invitation->idGroupe);
+        if(isset($g)) {
+            if (isset($invitation)) {
+                if ($invitation->status != 'accepte') {
+                    $invitation->save();
+                    $g->status="ouvert";
+                    $g->nbUsers=$g->nbUsers-1;
+                    $invitation->delete();
+                    $g->save();
+                    $this->flash('info', 'Vous avez refuser l\'invitation.');
+                    return $this->redirect($response, 'utilisateur.connexion.form');
+                } else {
+                    $this->flash('info', 'Vous avez déjà répondu à l\'invitation.');
+                    return $this->redirect($response, 'utilisateur.connexion.form');
+                }
+            } else {
+                $this->flash('info', 'Invitation invalide');
+                return $this->redirect($response, 'utilisateur.connexion.form');
+            }
+        }else {
+            $this->flash('info', 'Groupe inexistant');
+            return $this->redirect($response, 'utilisateur.connexion.form');
+        }
+    }
 }
+
+
+
+
