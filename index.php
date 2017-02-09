@@ -119,6 +119,7 @@ $app->group('/group', function(){
     $this->post('/generateURL/{id:[0-9]+}', ValidationController::class . ':genererURL')->setName('generateURL');
     $this->post('/delete', GroupeController::class . ':supprimerUser')->setName('supprimerUser');
     $this->post('/validateComplete', ValidationController::class . ':validerGroupeComplet')->setName('validateGroupComplete');
+    $this->get('/join/{url}', ValidationController::class . ':rejoindreGroupe')->setName('joinGroup');
     $this->post('/acceptInvitation/{id}', ValidationController::class . ':accepterInvitation')->setName('acceptInvitation');
     $this->post('/refuseInvitation/{id}', ValidationController::class . ':refuserInvitation')->setName('refuseInvitation');
 
