@@ -95,6 +95,8 @@ $app->group('/logement',function (){
 
 $app->group('/gestion',function (){
     $this->get('/index', \charly\controllers\GestionController::class . ':index')->setName('gestion.index');
+    $this->get('/refuser/{groupe:[0-9]+}', \charly\controllers\GestionController::class . ':refuser')->setName('gestion.refuser');
+    $this->get('/valider/{groupe:[0-9]+}', \charly\controllers\GestionController::class . ':valider')->setName('gestion.valider');
 });
 
 /*
