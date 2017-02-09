@@ -10,6 +10,7 @@ namespace charly\controllers;
 
 
 use charly\models\Logement;
+use Slim\Interfaces\InvocationStrategyInterface;
 
 class ValidationController extends BaseController
 {
@@ -23,10 +24,10 @@ class ValidationController extends BaseController
                         $g->status='complet';
                         $g->save();
                         $this->flash('info', 'Le groupe a bien été accepté');
-                        return $this->redirect($response, 'viewGroup', $args, 400);
+                        return $this->redirect($response, 'viewGroup', $args);
                     }else{
                         $this->flash('info', 'Le nombre de places du logement ne corresponds pas au nombre de membre du groupe.');
-                        return $this->redirect($response, 'viewGroup', $args, 400);
+                        return $this->redirect($response, 'viewGroup', $args);
                     }
 
                 }else{
@@ -43,8 +44,18 @@ class ValidationController extends BaseController
         }
     }
 
-    public function genererURL(){
-
+    public function genererURL(RequestInterface $request, ResponseInterface $response, $args){
+        $token = uniqid();
+        $invitation = Invitation::where('id', $args['id'])->first();
+        if(isset($invitation)) {
+            $invitation->url = $token;
+            $invitation->save();
+            $this->flash('info', 'Url géneré');
+            return $this->redirect($response, 'viewGroup', $args);
+        }else{
+            $this->flash('info', 'Aucune invitation ne correspond');
+            return $this->redirect($response, 'viewGroup', $args, 400);
+        }
     }
 
 }
