@@ -105,6 +105,6 @@ $app->get('/group/create', GroupeController::class . ':interfaceCreationGroupe')
 $app->post('/group/create', GroupeController::class . ':postCreerGroupe')->setName('createGroupForm');
 
 
-$app->get('/group/view/{id:[0-9]+}', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
+$app->get('/group/view', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
 
 $app->run();
