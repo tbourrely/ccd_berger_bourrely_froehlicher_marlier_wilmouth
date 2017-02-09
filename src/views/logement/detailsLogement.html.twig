@@ -1,0 +1,21 @@
+{% extends "layout.html.twig" %}
+
+{% set title = "Detail Logement" %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>Detail d'un logement</h1>
+        </div>
+        <div class="row">
+            <div class="center-block col-sm-12">
+                <div class="thumbnail" style="background-color:#eee " >
+                    <img src="{{ base_url() }}/assets/img/apart/{{ logement.id }}.jpg" style="height: 20em">
+                    <div class="caption">
+                        <h3 style="text-align: center">Nombre de places : {{ logement.places }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

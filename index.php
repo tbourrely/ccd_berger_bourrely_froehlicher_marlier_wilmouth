@@ -1,5 +1,8 @@
 <?php
-
+use charly\DatabaseFactory;
+use Slim\Views\Twig;
+use Slim\Views\TwigExtension;
+use charly\controllers\GroupeController;
 // Demarrage de la session
 session_start();
 
@@ -7,8 +10,8 @@ session_start();
 require 'vendor/autoload.php';
 
 // Configuration de la connexion a la base de donnees
-\charly\DatabaseFactory::setConfig();
-\charly\DatabaseFactory::makeConnection();
+DatabaseFactory::setConfig();
+DatabaseFactory::makeConnection();
 
 // Variables globales
 define('DS', DIRECTORY_SEPARATOR);
@@ -27,12 +30,12 @@ $container = $app->getContainer();
 
 // Initialisation des vues dans le container
 $container['views'] = function ($container) {
-    $view = new \Slim\Views\Twig(SRC . DS . 'views', [
+    $view = new Twig(SRC . DS . 'views', [
         'cache' => false // Pas de cache sur les vues
     ]);
 
     $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
-    $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
+    $view->addExtension(new TwigExtension($container['router'], $basePath));
 
     return $view;
 };
@@ -65,9 +68,17 @@ $app->add($container->get('csrf'));
 $app->get('/', \charly\controllers\ExempleController::class . ':index')->setName('index');
 
 $app->group('/utilisateur', function() {
+    $this->get('/list', \charly\controllers\UtilisateursController::class . ':listUsers')->setName('listUsers');
+    $this->get('/details/{id:[0-9]+}', \charly\controllers\UtilisateursController::class . ':detailsUser')->setName('detailsUser');
     $this->get('/inscription', \charly\controllers\UtilisateursController::class . ':inscriptionForm')->setName('inscription.form');
     $this->post('/inscription', \charly\controllers\UtilisateursController::class . ':inscription')->setName('utilisateur.inscription');
     $this->get('/{id:[0-9]+}', \charly\controllers\UtilisateursController::class . ':compte')->setName('utilisateur.compte');
+});
+
+$app->group('/logement',function (){
+    $this->get('/list',\charly\controllers\LogementController::class.':listLogement')->setName('listLogement');
+    $this->get('/details/{id:[0-9]+}', \charly\controllers\LogementController::class . ':detailsLogement')->setName('detailsLogement');
+
 });
 
 /*
@@ -79,5 +90,7 @@ $app->group('/evenements', function () {
     $this->get('/recherche/{recherche}', \coolracing\controllers\EvenementsController::class . ':resultats')->setName('evenements.recherche.resultats');
 });
 */
+
+$app->get('/group/create', GroupeController::class . ':interfaceCreationGroupe')->setName('createGroup');
 
 $app->run();

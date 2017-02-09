@@ -1,0 +1,24 @@
+{% extends "layout.html.twig" %}
+
+{% set title = "Creation évènement" %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>Detail d'un membre</h1>
+        </div>
+        <div class="row">
+            <div class="center-block col-sm-12">
+                <div class="jumbotron" style="min-height: 15em" >
+                    <div class="col-sm-3 col-xs-6">
+                        <img src="{{ base_url() }}/assets/img/user/{{ user.id }}.jpg">
+                    </div>
+                    <div class="co-sm-9">
+                        <h3>Nom : {{ user.nom }}</h3>
+                        <p>Description : {{ user.message }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

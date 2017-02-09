@@ -32,7 +32,10 @@
             </form>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Accueil</a></li>
+                    <li ><a href="{{ path_for('index') }}">Accueil</a></li>
+                    <li ><a href="{{ path_for('createGroup')}}">Créer groupe</a></li>
+                    <li ><a href="{{ path_for('listUsers') }}">Liste Utilisateurs</a></li>
+                    <li ><a href="{{ path_for('listLogement') }}">Liste Logements</a></li>
                 </ul>
             </div>
         </div>
