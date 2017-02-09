@@ -26,14 +26,6 @@
                         <h3 style="color: red">Proprietaire</h3>
                     </div>
                     <div class="row">
-
-                        <input id="user_list_dropdown_input" type="text" name="keyword" class="form-control col-md-12" placeholder="Rechercher">
-                        <ul id="user_list_dropdown" class="col-md-12">
-                        </ul>
-
-                        <div id="user_container"">
-
-                    </div>
                 </div>
             </div>
             <div class="col-sm-9 text-center">
@@ -49,6 +41,8 @@
                                     <h3>{{ i.user.nom }}</h3>
                                 </div>
                                 <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsUser',{'id' : i.user.id}) }}" role="button">voir profil</a></p>
+
+
                             </div>
                         </div>
                     {% endfor %}
@@ -69,28 +63,26 @@
                         <h3 style="text-align: center">Nombre de places : {{ groupe.logementG.places }}</h3>
                     </div>
 
-                    <div class="text-center">
-                        <form method="post" action="{{ path_for('supLogement') }}">
-                            {{ csrf() }}
-                            <button class="btn btn-danger">SUPPRIMER</button>
-                        </form>
-                    </div>
+
                 </div>
             {% else %}
                 <h3>Vous n'avez pas de logements actuellement</h3>
                 <a class="btn btn-success" href="{{ path_for('listLogement') }}">Choisir un logement</a>
             {% endif %}
         </div>
-        {% if groupe.status == 'ouvert' %}
             <div class="text-center">
-                <form method="post" action="{{ path_for('validateGroup') }}">
-                    {{ csrf() }}
-
-                    <input type="number" name="validate" value="{{ groupe.id }}" hidden>
-                    <button class="btn btn-success">VALIDER</button>
-                </form>
+            <form method="post" action="{{ path_for('acceptInvitation', {'id' : vraiInvitation.url}) }}">
+                {{ csrf() }}
+                <input type="number" name="genererUrl" value="{{ vraiInvitation.url }}" hidden>
+                <p><button class="btn btn-success btn-lg"  type="submit" role="button">REJOINDRE LE GROUPE</button></p>
+            </form>
+            <form method="post" action="{{ path_for('refuseInvitation', {'id' : vraiInvitation.url}) }}">
+                {{ csrf() }}
+                <input type="number" name="genererUrl" value="{{ vraiInvitation.url }}" hidden>
+                <p><button class="btn btn-danger btn-lg"  type="submit" role="button">REFUSER L'INVITATION</button></p>
+            </form>
             </div>
             <br>
-        {% endif %}
+            <br>
     </div>
 {% endblock %}

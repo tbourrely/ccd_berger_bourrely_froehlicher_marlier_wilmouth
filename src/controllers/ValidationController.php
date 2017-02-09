@@ -122,7 +122,7 @@ class ValidationController extends BaseController
         if(isset($g)) {
             if (isset($invitation)) {
                 if ($invitation->status != 'accepte') {
-                    $invitation->save();
+
                     $g->status="ouvert";
                     $g->nbUsers=$g->nbUsers-1;
                     $invitation->delete();
@@ -148,7 +148,8 @@ class ValidationController extends BaseController
         $g = Groupe::where('id', $i->idGroupe)->with('proprio', 'logementG')->first();
 
         $tab['groupe'] = $g;
-        $tab['i'] = $i;
+        $tab['vraiInvitation'] = $i;
+        $tab['invitation'] = Invitation::where('idGroupe', $g->id)->with('user')->get();
         $this->render($response, 'group/join', $tab);
     }
 }
