@@ -26,15 +26,17 @@ class LogementController extends BaseController
         if (isset($args['filter1'])){
             if($args['filter1'] === "places"){
                 if (isset($_SESSION['user'])){
-                    $nbUsers = Groupe::where('proprietaire', '=', $_SESSION['user']['id'])->first()->nbUsers;
+                    $nbUsers = Groupe::where('proprietaire', '=', $_SESSION['user']['id'])->first();
                     if($nbUsers){
-                        $tab["logements"] = Logement::where('places', '=', $nbUsers)->where('moy', '>=', $note)->get();
+                        $tab["logements"] = Logement::where('places', '=', $nbUsers->nbUsers)->where('moy', '>=', $note)->get();
                         $this->render($resp,'logement/listLogement',$tab);
                     }else{
-                        echo "error nbusers";
+                        $tab["logements"]=Logement::where('places','>',0)->where('moy', '>=', $note)->get();
+                        $this->render($resp,'logement/listLogement',$tab);
                     }
                 }else{
-                    echo "non connecte";
+                    $tab["logements"]=Logement::where('places','>',0)->where('moy', '>=', $note)->get();
+                    $this->render($resp,'logement/listLogement',$tab);
                 }
             }else{
                 $tab["logements"]=Logement::where('places','>',0)->where('moy', '>=', $note)->get();
