@@ -15,6 +15,5 @@ class User extends Model
 {
     protected $table = 'user';
     protected $primaryKey = 'id';
-    protected $fillable = array('id', 'nom', 'email', 'password', 'message', 'age');
     public $timestamps = false;
 }
