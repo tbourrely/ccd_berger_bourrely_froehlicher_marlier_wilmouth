@@ -4,7 +4,16 @@
 
 {% block content %}
     <div class="container">
-    <h1>Visualisation du groupe</h1>
+    <h1>Visualisation du groupe {% if groupe.status == 'completValide' %}
+
+            <span class="label label-warning">EN ATTENTE DE VALIDATION</span>
+        {% elseif groupe.status == 'cloture' %}
+            <span class="label label-success">Votre groupe a été validé</span>
+        {% elseif groupe.status == 'refusé' %}
+            <span class="label label-danger">Votre groupe a été refusé</span>
+        {% endif %}
+
+    </h1>
     <hr class="my-4">
 
 
