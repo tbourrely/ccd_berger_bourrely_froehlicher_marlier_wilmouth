@@ -62,7 +62,7 @@
 
                                         <div class="input-group">
 
-                                            <input type="text" id="to-copy" class="form-control" value="{{ i.url }}" placeholder="Search for...">
+                                            <input type="text" id="to-copy" class="form-control" value="{{ url }}{{ path_for('joinGroup', {'url': i.url}) }}" placeholder="Search for...">
 
                                             <span class="input-group-btn">
 
