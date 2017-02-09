@@ -19,6 +19,9 @@ class Logement extends Model
 
     public function groupes() {
         return $this->hasMany('\charly\models\Groupe', 'idLogement');
+
+    public function notations(){
+        return $this->hasMany('charly\models\Notation','idLogement');
     }
 
 }

@@ -84,12 +84,13 @@ $app->group('/utilisateur', function() {
     $this->get('/deconnexion', \charly\controllers\UtilisateursController::class . ':deconnexion')->setName('utilisateur.deconnexion');
     $this->post('/edit/avatar', \charly\controllers\UtilisateursController::class . ':avatar')->setName('utilisateur.avatar');
     $this->post('/edit', \charly\controllers\UtilisateursController::class . ':editer')->setName('utilisateur.edit');
+    $this->get('/rate/{id:[0-9]+}/{note:[0-9]+}', \charly\controllers\UtilisateursController::class . ':rateUser')->setName('rateUser');
 });
 
 $app->group('/logement',function (){
-    $this->get('/list',\charly\controllers\LogementController::class.':listLogement')->setName('listLogement');
+    $this->get('/list[/{filter1}]',\charly\controllers\LogementController::class.':listLogement')->setName('listLogement');
     $this->get('/details/{id:[0-9]+}', \charly\controllers\LogementController::class . ':detailsLogement')->setName('detailsLogement');
-    $this->get('/listFilter',\charly\controllers\LogementController::class.':listLogementFilter')->setName('listLogementFilter');
+    $this->get('/rate/{id:[0-9]+}/{note:[0-9]+}', \charly\controllers\LogementController::class . ':rateLogement')->setName('rateLogement');
 });
 
 $app->group('/gestion',function (){
@@ -117,6 +118,9 @@ $app->group('/group', function(){
     $this->post('/generateURL/{id:[0-9]+}', ValidationController::class . ':genererURL')->setName('generateURL');
     $this->post('/delete', GroupeController::class . ':supprimerUser')->setName('supprimerUser');
     $this->post('/validateComplete', ValidationController::class . ':validerGroupeComplet')->setName('validateGroupComplete');
+    $this->get('/join/{url}', ValidationController::class . ':rejoindreGroupe')->setName('joinGroup');
+    $this->post('/acceptInvitation/{id}', ValidationController::class . ':accepterInvitation')->setName('acceptInvitation');
+    $this->post('/refuseInvitation/{id}', ValidationController::class . ':refuserInvitation')->setName('refuseInvitation');
 
 
 

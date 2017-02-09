@@ -12,7 +12,15 @@
                 <div class="thumbnail" style="background-color:#eee " >
                     <img src="{{ base_url() }}/assets/img/apart/{{ logement.id }}.jpg" style="height: 20em">
                     <div class="caption">
+                        <h4 style="text-align: center">Moyenne : {{ logement.moy }}</h4>
                         <h3 style="text-align: center">Nombre de places : {{ logement.places }}</h3>
+                    </div>
+                    <div class="rating"><!--
+                       --><a href="{{ path_for('rateLogement',{'id' : logement.id, 'note' : 5}) }}" title="Donner 5 étoiles">☆</a><!--
+                       --><a href="{{ path_for('rateLogement',{'id' : logement.id, 'note' : 4}) }}" title="Donner 4 étoiles">☆</a><!--
+                       --><a href="{{ path_for('rateLogement',{'id' : logement.id, 'note' : 3}) }}" title="Donner 3 étoiles">☆</a><!--
+                       --><a href="{{ path_for('rateLogement',{'id' : logement.id, 'note' : 2}) }}" title="Donner 2 étoiles">☆</a><!--
+                       --><a href="{{ path_for('rateLogement',{'id' : logement.id, 'note' : 1}) }}" title="Donner 1 étoile">☆</a>
                     </div>
                 </div>
                 <div class="text-center">
