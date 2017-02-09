@@ -3,6 +3,22 @@
  */
 $(function() {
 
+    {
+        var inputNote = $("#note-selector");
+        var url = window.location.href;
+        var index = url.indexOf('?note=');
+        if(index>0){
+            url = url.slice(index);
+            url = url.replace("?note=","");
+            inputNote.val(url);
+        }else{
+            inputNote.val(0);
+        }
+    }
+
+
+
+
     var list = $("#user_list_dropdown");
     $('#groupe-form').on('keydown', function(event){
         if(event.keyCode == 13)
