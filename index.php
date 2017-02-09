@@ -3,6 +3,7 @@ use charly\DatabaseFactory;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 use charly\controllers\GroupeController;
+use charly\controllers\ValidationController;
 
 // Demarrage de la session
 session_start();
@@ -109,6 +110,8 @@ $app->group('/group', function(){
     $this->get('/create', GroupeController::class . ':interfaceCreationGroupe')->setName('createGroup');
     $this->post('/create', GroupeController::class . ':postCreerGroupe')->setName('createGroupForm');
     $this->get('/view', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
+    $this->get('/validate', ValidationController::class . ':validerGroupe')->setName('validateGroup');
+
 });
 
 
