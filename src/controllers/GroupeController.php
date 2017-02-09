@@ -66,7 +66,7 @@ class GroupeController extends BaseController
         $errors = [];
 
         if(isset($_SESSION['user'])){
-            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->with('proprio')->first();
+            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->with('proprio','logementG')->first();
 
             if(!is_null($g)){
                 $tab['groupe'] = $g;
