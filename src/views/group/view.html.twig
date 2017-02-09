@@ -52,7 +52,7 @@
                                 <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsUser',{'id' : i.user.id}) }}" role="button">voir profil</a></p>
                                 {% if groupe.status == 'complet'%}
                                     {% if i.url == 0 %}
-                                        <form method="post" action="{{ path_for('generateURL', {'id' : i.id}) }}">
+                                        <form method="post" action="{{ url }}{{ path_for('generateURL', {'id' : i.id}) }}">
                                             {{ csrf() }}
                                             <input type="number" name="genererUrl" value="{{ i.id }}" hidden>
                                             <p><button class="btn btn-success btn-lg"  type="submit" role="button">Generer URL</button></p>
