@@ -45,7 +45,7 @@ class UtilisateursController extends BaseController
                 unset($params['password_verify']);
                 $params['password'] = password_hash($params['password'], PASSWORD_DEFAULT, ['cost' => 10]);
                 $idUser = user::create($params);
-                $this->createSession('user', $user->id);
+                $this->createSession('user', $idUser->id);
                 $this->flash('success', "Inscription réussie avec succès.");
                 return $this->redirect($response, 'utilisateur.compte', ['id' => $idUser->id]);
             } else {
@@ -122,6 +122,17 @@ class UtilisateursController extends BaseController
         $this->render($resp, 'utilisateurs/detailsUtilisateur',$tab);
     }
 
+
+    public function listUsersJson(RequestInterface $request, ResponseInterface $response, $args){
+        $search = $args['search'];
+        $tab = \charly\models\User::where('nom', 'LIKE', "%$search%")->get();
+        $users = array();
+        foreach ($tab as $u){
+            array_push($users, $u->nom);
+        }
+        echo json_encode($users);
+    }
+
     public function compte(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (isset($_SESSION['user'])) {
@@ -144,6 +155,18 @@ class UtilisateursController extends BaseController
             return $this->redirect($response, 'index');
         }
     }
+
+
+
+
+
+    public function retrieveId(RequestInterface $request, ResponseInterface $response, $args)
+    {
+        $search = $args['name'];
+        $tab = \charly\models\User::where('nom', '=', $search)->first();
+        echo $tab->id;
+    }
+
 
     public function editer(RequestInterface $request, ResponseInterface $response, $args)
     {
