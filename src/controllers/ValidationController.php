@@ -69,7 +69,7 @@ class ValidationController extends BaseController
             $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->where('id', $args['id'])->first();
             if (!is_null($g)) {
                 if($g->status=='complet'){
-                    $invitations=Invitation::where('idGroupe',$g->id);
+                    $invitations=Invitation::where('idGroupe',$g->id)->get();
                     try{
                         foreach ($invitations as $i){
                             if($i->status!='accepte'){
