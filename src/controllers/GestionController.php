@@ -21,7 +21,7 @@ class GestionController extends BaseController
     public function index(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (isset($_SESSION['user'])) {
-            if ($_SESSION['user']['gest'] === 1) {
+            if ($_SESSION['user']['gest'] == 1) {
                 $logements = Logement::with('groupes', 'groupes.invitation', 'groupes.invitation.user')->get();
                 $this->render($response, 'gestion/index', ['logements' => $logements]);
             } else {
@@ -64,13 +64,17 @@ class GestionController extends BaseController
     public function refuser(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (isset($_SESSION['user'])) {
-            $groupeId = $args['groupe'];
-            $groupe = Groupe::where('id', '=', $groupeId)->first();
-            $groupe->status = 'refusé';
-            $groupe->save();
-            $this->flash('success', 'Groupe refusé.');
-            return $this->redirect($response, 'gestion.index');
-
+        	if ($_SESSION['user']['gest'] == 1) {
+                $groupeId = $args['groupe'];
+	            $groupe = Groupe::where('id', '=', $groupeId)->first();
+	            $groupe->status = 'refusé';
+	            $groupe->save();
+	            $this->flash('success', 'Groupe refusé.');
+	            return $this->redirect($response, 'gestion.index');
+            } else {
+                $this->flash('error', 'Vous devez être gestionnaire pour accèder a cette page.');
+                return $this->redirect($response, 'index');
+            }
         } else {
             return $this->redirect($response, 'index');
         }
@@ -79,7 +83,7 @@ class GestionController extends BaseController
     public function ajouterLogementForm(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (isset($_SESSION['user'])) {
-            if ($_SESSION['user']['gest'] === 1) {
+            if ($_SESSION['user']['gest'] == 1) {
                 $this->render($response, 'gestion/ajouterLogement');
             } else {
                 $this->flash('error', 'Vous devez être gestionnaire pour accèder a cette page.');
@@ -93,7 +97,7 @@ class GestionController extends BaseController
     public function ajouterLogement(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (isset($_SESSION['user'])) {
-            if ($_SESSION['user']['gest'] === 1) {
+            if ($_SESSION['user']['gest'] == 1) {
                 $errors = [];
                 if (!Validator::intVal()->validate($request->getParam('places'))) {
                     $errors['places'] = "Veuillez spécifier un nombre de place";
