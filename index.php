@@ -7,8 +7,8 @@ session_start();
 require 'vendor/autoload.php';
 
 // Configuration de la connexion a la base de donnees
-\coolracing\DatabaseFactory::setConfig();
-\coolracing\DatabaseFactory::makeConnection();
+\charly\DatabaseFactory::setConfig();
+\charly\DatabaseFactory::makeConnection();
 
 // Variables globales
 define('DS', DIRECTORY_SEPARATOR);

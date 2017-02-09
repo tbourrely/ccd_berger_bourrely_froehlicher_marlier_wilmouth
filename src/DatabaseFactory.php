@@ -1,6 +1,6 @@
 <?php
 
-namespace coolracing;
+namespace charly;
 
 use Illuminate\Database\Capsule\Manager as DB;
 
