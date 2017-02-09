@@ -20,24 +20,26 @@ use charly\models\Invitation;
 
 class GroupeController extends BaseController
 {
-    public function interfaceCreationGroupe(RequestInterface $request, ResponseInterface $response, $args){
-        if(isset($_SESSION['user'])){
+    public function interfaceCreationGroupe(RequestInterface $request, ResponseInterface $response, $args)
+    {
+        if (isset($_SESSION['user'])) {
             $this->render($response, 'group\create');
-        }else{
+        } else {
             return $this->redirect($response, 'utilisateur.connexion.form');
         }
 
     }
 
-    public function postCreerGroupe(RequestInterface $request, ResponseInterface $response, $args){
-        if(isset($_SESSION['user'])){
+    public function postCreerGroupe(RequestInterface $request, ResponseInterface $response, $args)
+    {
+        if (isset($_SESSION['user'])) {
             $errors = [];
             if (!Validator::stringType()->validate($request->getParam('description'))) {
                 $errors['description'] = "La description n'est pas valide.";
 
             }
-            $groupe=Groupe::where('proprietaire','=',$_SESSION['user']['id'])->first();
-            if(isset($groupe)) {
+            $groupe = Groupe::where('proprietaire', '=', $_SESSION['user']['id'])->first();
+            if (isset($groupe)) {
                 $this->flash('info', "Vous avez déjà créer un groupe.");
                 return $this->redirect($response, 'viewGroup', $args, 400);
             }
@@ -47,7 +49,7 @@ class GroupeController extends BaseController
                 $g->proprietaire = $_SESSION['user']['id'];
                 $g->description = $request->getParam('description');
                 $g->nbUsers = 1;
-                $g->status ='ouvert';
+                $g->status = 'ouvert';
                 $g->nbinvitationok = 0;
                 $g->save();
 
@@ -57,52 +59,70 @@ class GroupeController extends BaseController
                 $this->flash('errors', $errors);
                 return $this->redirect($response, 'utilisateur.connexion.form', $args, 400);
             }
-        }else{
+        } else {
             return $this->redirect($response, 'utilisateur.connexion.form');
         }
     }
 
-    public function interfaceViewGroupe(RequestInterface $request, ResponseInterface $response, $args){
+    public function interfaceViewGroupe(RequestInterface $request, ResponseInterface $response, $args)
+    {
         $errors = [];
 
-        if(isset($_SESSION['user'])){
-            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->with('proprio','logementG')->first();
+        if (isset($_SESSION['user'])) {
+            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->with('proprio', 'logementG')->first();
 
-            if(!is_null($g)){
+            if (!is_null($g)) {
                 $tab['groupe'] = $g;
-                $tab['invitation'] = Invitation::where('idGroupe', $g->id )->with('user')->get();
+                $tab['invitation'] = Invitation::where('idGroupe', $g->id)->with('user')->get();
 
                 $this->render($response, 'group\view', $tab);
 
-            }else{
+            } else {
                 $this->flash('info', 'Vous devez avoir créé un groupe');
                 return $this->redirect($response, 'createGroup', $args, 400);
             }
 
-        }else{
+        } else {
             return $this->redirect($response, 'utilisateur.connexion.form');
         }
     }
 
-    public function postAjoutLogement(RequestInterface $request, ResponseInterface $response, $args){
-        if(isset($_SESSION['user'])){
+    public function postAjoutLogement(RequestInterface $request, ResponseInterface $response, $args)
+    {
+        if (isset($_SESSION['user'])) {
             $errors = [];
             if (!Validator::intType()->validate($request->getParam('logement'))) {
                 $errors['description'] = "La description n'est pas valide.";
             }
             $l = Logement::where('id', $request->getParam('logement'))->first();
-            if(!is_null($l)){
+            if (!is_null($l)) {
 
             }
-            $g = Groupe::where('proprietaire',$_SESSION['user']['id'])->first();
-            if(!is_null($g)){
+            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->first();
+            if (!is_null($g)) {
                 $g->idLogement = $l->id;
                 $g->save();
                 return $this->redirect($response, 'viewGroup');
             }
-        }else{
+        } else {
             $this->flash('info', 'Vous devez être connecté');
             return $this->redirect($response, 'utilisateur.connexion.form');
         }
     }
+
+    public function postSupLogement(RequestInterface $request, ResponseInterface $response, $args)
+    {
+        if (isset($_SESSION['user'])) {
+            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->first();
+            if (!is_null($g)) {
+                $g->idLogement = null;
+                $g->save();
+                return $this->redirect($response, 'viewGroup');
+            }
+        } else {
+            $this->flash('info', 'Vous devez être connecté');
+            return $this->redirect($response, 'utilisateur.connexion.form');
+        }
+    }
+
 }

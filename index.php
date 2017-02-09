@@ -119,4 +119,6 @@ $app->group('/group', function(){
 
 $app->post('/group/modif', GroupeController::class . ':postAjoutLogement')->setName('ajoutLogement');
 
+$app->post('/group/supLogement', GroupeController::class . ':postSupLogement')->setName('supLogement');
+
 $app->run();
