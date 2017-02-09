@@ -70,6 +70,8 @@
                 <a class="btn btn-success" href="{{ path_for('listLogement') }}">Choisir un logement</a>
             {% endif %}
         </div>
+            {% if vraiInvitation.statut != 'accepte' %}
+
             <div class="text-center">
             <form method="post" action="{{ path_for('acceptInvitation', {'id' : vraiInvitation.url}) }}">
                 {{ csrf() }}
@@ -84,5 +86,8 @@
             </div>
             <br>
             <br>
+            {% else %}
+                <span class="label label-success">VOUS AVEZ ACCEPTE</span>
+            {% endif %}
     </div>
 {% endblock %}

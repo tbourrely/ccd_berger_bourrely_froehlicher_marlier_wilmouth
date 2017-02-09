@@ -151,11 +151,21 @@ class ValidationController extends BaseController
     public function rejoindreGroupe(RequestInterface $request, ResponseInterface $response, $args){
         $i = Invitation::where('url', $args['url'])->first();
         $g = Groupe::where('id', $i->idGroupe)->with('proprio', 'logementG')->first();
-
-        $tab['groupe'] = $g;
-        $tab['vraiInvitation'] = $i;
-        $tab['invitation'] = Invitation::where('idGroupe', $g->id)->with('user')->get();
-        $this->render($response, 'group/join', $tab);
+        if ($i->status != 'accepte'){
+            $tab['groupe'] = $g;
+            $tab['vraiInvitation'] = $i;
+            $tab['invitation'] = Invitation::where('idGroupe', $g->id)->with('user')->get();
+            $this->render($response, 'group/join', $tab);
+        }else if($i->status =='accepte'){
+            $tab['groupe'] = $g;
+            $tab['vraiInvitation'] = $i;
+            $tab['invitation'] = Invitation::where('idGroupe', $g->id)->with('user')->get();
+            $this->flash('info', 'Vous avez déjà répondu à l\'invitation.');
+            $this->render($response, 'group/join', $tab);
+        }else{
+            $this->flash('info', 'Vous avez déjà réfusé l\'invitation.');
+            return $this->redirect($response, 'gestion.index');
+        }
     }
 }
 
