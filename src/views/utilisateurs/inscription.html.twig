@@ -1,0 +1,95 @@
+{% extends "layout.html.twig" %}
+
+{% set title = "Création de compte" %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>Création de compte</h1>
+        </div>
+
+        <form action="{{ path_for('utilisateur.inscription') }}" method="post">
+            {{ csrf() }}
+
+            <div class="form-group{% if flash.errors.nom %} has-error {% endif %}">
+                <label for="nom">Nom: </label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    </span>
+                    <input type="text" name="nom" id="nom" class="form-control" placeholder="Nom" value="{{ persistValues.nom }}" required>
+                </div>
+                {% if flash.errors.nom %}
+                    <span class="help-block">{{ flash.errors.nom }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group{% if flash.errors.email %} has-error {% endif %}">
+                <label for="nom">Email: </label>
+                <div class="input-group">
+                    <span class="input-group-addon">@</span>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Email" value="{{ persistValues.email }}" required>
+                </div>
+                {% if flash.errors.email %}
+                    <span class="help-block">{{ flash.errors.email }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group{% if flash.errors.message %} has-error {% endif %}">
+                <label for="message">Message: </label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    </span>
+                    <input type="text" name="message" id="message" class="form-control" placeholder="Message" value="{{ persistValues.message }}" required>
+                </div>
+                {% if flash.errors.message %}
+                    <span class="help-block">{{ flash.errors.message }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group{% if flash.errors.age %} has-error {% endif %}">
+                <label for="nom">Age: </label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                    </span>
+                    <input type="number" name="age" id="age" class="form-control" placeholder="18" value="{{ persistValues.age }}" required>
+                </div>
+                {% if flash.errors.age %}
+                    <span class="help-block">{{ flash.errors.age }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group{% if flash.errors.password %} has-error {% endif %}">
+                <label for="nom">Mot de passe: </label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                    </span>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Mot de passe" value="{{ persistValues.password }}" required>
+                </div>
+                {% if flash.errors.password %}
+                    <span class="help-block">{{ flash.errors.password }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group{% if flash.errors.password_verify %} has-error {% endif %}">
+                <label for="password_verify">Mot de passe (vérification): </label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                    </span>
+                    <input type="password" name="password_verify" id="password_verify" class="form-control" placeholder="Mot de passe (vérification)" value="{{ persistValues.password_verify }}" required>
+                </div>
+                {% if flash.errors.password_verify %}
+                    <span class="help-block">{{ flash.errors.password_verify }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group col-md-12">
+                <input type="submit" class="btn btn-primary" value="Créer mon compte">
+            </div>
+        </form>
+    </div>
+{% endblock %}
