@@ -52,7 +52,7 @@ class ValidationController extends BaseController
     public function genererURL(RequestInterface $request, ResponseInterface $response, $args){
         $token = uniqid();
         $invitation = Invitation::where('id', $args['id'])->first();
-        if(isset($invitation)) {
+        if(!is_null($invitation)) {
             $invitation->url = $token;
             $invitation->save();
             $this->flash('info', 'Url géneré');
@@ -100,7 +100,7 @@ class ValidationController extends BaseController
 
     public function accepterInvitation(RequestInterface $request, ResponseInterface $response, $args){
         $invitation = Invitation::where('url', $args['id'])->first();
-        if(isset($invitation)) {
+        if(!is_null($invitation)) {
             if($invitation->status!='accepte') {
                 $invitation->status = "accepte";
                 $invitation->save();
@@ -119,8 +119,8 @@ class ValidationController extends BaseController
     public function refuserInvitation(RequestInterface $request, ResponseInterface $response, $args){
         $invitation = Invitation::where('url', $args['id'])->first();
         $g=Groupe::where('id',$invitation->idGroupe);
-        if(isset($g)) {
-            if (isset($invitation)) {
+        if(!is_null($g)) {
+            if (!is_null($invitation)) {
                 if ($invitation->status != 'accepte') {
 
                     $g->status="ouvert";
