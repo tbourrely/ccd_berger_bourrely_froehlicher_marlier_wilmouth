@@ -43,7 +43,7 @@ class GroupeController extends BaseController
                 $g->proprietaire = $_SESSION['user'];
                 $g->description = $request->getParam('description');
                 $g->nbUsers = 1;
-                $g->ouvert = 0;
+                $g->status ='ouvert';
                 $g->nbinvitationok = 0;
                 $g->save();
 

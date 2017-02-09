@@ -20,7 +20,7 @@ class ValidationController extends BaseController
                 $l=Logement::where('id',$g->idLogement);
                 if(isset($l)){
                     if($l->places==$g->nbUsers){
-                        $g->ouvert=1;
+                        $g->status='complet';
                         $g->save();
                         $this->flash('info', 'Le groupe a bien été accepté');
                         return $this->redirect($response, 'viewGroup', $args, 400);
@@ -37,11 +37,14 @@ class ValidationController extends BaseController
                 $this->flash('info', 'Vous devez avoir créé un groupe.');
                 return $this->redirect($response, 'createGroup', $args, 400);
             }
-
         }else{
             $this->flash('info', 'Vous devez être connecté.');
             return $this->redirect($response, 'utilisateur.connexion.form');
         }
+    }
+
+    public function genererURL(){
+
     }
 
 }
