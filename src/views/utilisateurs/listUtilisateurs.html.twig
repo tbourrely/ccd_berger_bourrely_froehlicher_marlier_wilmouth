@@ -1,0 +1,26 @@
+{% extends "layout.html.twig" %}
+
+{% set title = "Creation évènement" %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>Liste membres</h1>
+        </div>
+        <div class="row">
+            {% for u in users %}
+            <div class="col-sm-3 text-center">
+                <div class="jumbotron" >
+                    <div class="col-sm-12 col-xs-6">
+                        <img src="{{ base_url() }}/assets/img/user/{{ u.id }}.jpg">
+                    </div>
+                    <div class="text-center">
+                        <h3>{{ u.nom }}</h3>
+                    </div>
+                    <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsUser',{'id' : u.id}) }}" role="button">voir profil</a></p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
