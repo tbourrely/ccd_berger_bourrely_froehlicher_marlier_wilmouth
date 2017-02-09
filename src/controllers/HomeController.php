@@ -17,7 +17,8 @@ class HomeController extends BaseController
 {
     public function index(RequestInterface $request, ResponseInterface $response, $args)
     {
-        $tab['logements'] = Logement::orderBy('moy','ASC')->take(6)->get();
+        $tab['logements'] = Logement::orderBy('moy','DESC')->take(6)->get();
+
         $this->render($response,'home',$tab);
     }
 }
