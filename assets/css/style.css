@@ -1,3 +1,23 @@
 textarea{
     resize: none; /* fix resize of textarea */
 }
+
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+}
+.rating > a {
+    text-decoration: none;
+    font-size: 3em;
+    transition: color .10s;
+    color: orange;
+}
+
+.rating > a:hover:before,
+.rating > a:hover ~ a:before {
+    content: "\2605";
+    position: absolute;
+    text-decoration: none;
+    color: orange;
+}
