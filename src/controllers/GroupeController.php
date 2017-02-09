@@ -38,7 +38,8 @@ class GroupeController extends BaseController
             }
             $groupe=Groupe::where('proprietaire','=',$_SESSION['user']['id'])->first();
             if(isset($groupe)) {
-                $errors['groupedejacreer']="Vous avez déjà créer un groupe.";
+                $this->flash('info', "Vous avez déjà créer un groupe.");
+                return $this->redirect($response, 'viewGroup', $args, 400);
             }
             if (empty($errors)) {
 
