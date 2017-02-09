@@ -3,6 +3,7 @@ use charly\DatabaseFactory;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 use charly\controllers\GroupeController;
+use charly\controllers\ValidationController;
 
 // Demarrage de la session
 session_start();
@@ -68,7 +69,7 @@ $app->add($container->get('csrf'));
 // Ajouts du Middleware de verification de connexion
 $app->add(new \charly\middlewares\AuthMiddleware($container->views->getEnvironment()));
 
-$app->get('/', \charly\controllers\ExempleController::class . ':index')->setName('index');
+$app->get('/', \charly\controllers\LogementController::class.':listLogement')->setName('index');
 
 $app->group('/utilisateur', function() {
     $this->get('/list', \charly\controllers\UtilisateursController::class . ':listUsers')->setName('listUsers');
@@ -91,6 +92,10 @@ $app->group('/logement',function (){
 
 });
 
+$app->group('/gestion',function (){
+    $this->get('/index', \charly\controllers\GestionController::class . ':index')->setName('gestion.index');
+});
+
 /*
 $app->get('/', \charly\controllers\EvenementsController::class . ':index')->setName('index');
 
@@ -105,9 +110,17 @@ $app->group('/group', function(){
     $this->get('/create', GroupeController::class . ':interfaceCreationGroupe')->setName('createGroup');
     $this->post('/create', GroupeController::class . ':postCreerGroupe')->setName('createGroupForm');
     $this->get('/view', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
+
     $this->get('/add/{id}', GroupeController::class . ':add')->setName('addGroup');
+
+    $this->post('/validate', ValidationController::class . ':validerGroupe')->setName('validateGroup');
+    $this->post('/generateURL/{id:[0-9]+}', ValidationController::class . ':genererURL')->setName('generateURL');
+
+
 });
 
 
+
+$app->post('/group/modif', GroupeController::class . ':postAjoutLogement')->setName('ajoutLogement');
 
 $app->run();

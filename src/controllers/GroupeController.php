@@ -10,10 +10,13 @@ namespace charly\controllers;
 
 use charly\models\ContenuGroupe;
 use charly\models\User;
+use charly\models\Logement;
+
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Respect\Validation\Validator;
 use charly\models\Groupe;
+use charly\models\Invitation;
 
 
 class GroupeController extends BaseController
@@ -34,21 +37,22 @@ class GroupeController extends BaseController
                 $errors['description'] = "La description n'est pas valide.";
 
             }
-            $groupe=Groupe::where('proprietaire','=',$_SESSION['user'])->first();
+            $groupe=Groupe::where('proprietaire','=',$_SESSION['user']['id'])->first();
             if(isset($groupe)) {
-                $errors['groupedejacreer']="Vous avez déjà créer un groupe.";
+                $this->flash('info', "Vous avez déjà créer un groupe.");
+                return $this->redirect($response, 'viewGroup', $args, 400);
             }
             if (empty($errors)) {
 
                 $g = new Groupe();
-                $g->proprietaire = $_SESSION['user'];
+                $g->proprietaire = $_SESSION['user']['id'];
                 $g->description = $request->getParam('description');
                 $g->nbUsers = 1;
-                $g->ouvert = 0;
+                $g->status ='ouvert';
                 $g->nbinvitationok = 0;
                 $g->save();
 
-                return $this->redirect($response, 'viewGroup', ['id' => $g->id]);
+                return $this->redirect($response, 'viewGroup');
 
             } else {
                 $this->flash('errors', $errors);
@@ -63,16 +67,40 @@ class GroupeController extends BaseController
         $errors = [];
 
         if(isset($_SESSION['user'])){
-            $g = Groupe::where('proprietaire', $_SESSION['user'])->first();
+            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->with('proprio','logementG')->first();
 
             if(!is_null($g)){
-                $this->render($response, 'group\view');
+                $tab['groupe'] = $g;
+                $tab['invitation'] = Invitation::where('idGroupe', $g->id )->with('user')->get();
+
+                $this->render($response, 'group\view', $tab);
 
             }else{
                 $this->flash('info', 'Vous devez avoir créé un groupe');
                 return $this->redirect($response, 'createGroup', $args, 400);
             }
 
+        }else{
+            return $this->redirect($response, 'utilisateur.connexion.form');
+        }
+    }
+
+    public function postAjoutLogement(RequestInterface $request, ResponseInterface $response, $args){
+        if(isset($_SESSION['user'])){
+            $errors = [];
+            if (!Validator::intType()->validate($request->getParam('logement'))) {
+                $errors['description'] = "La description n'est pas valide.";
+            }
+            $l = Logement::where('id', $request->getParam('logement'))->first();
+            if(!is_null($l)){
+
+            }
+            $g = Groupe::where('proprietaire',$_SESSION['user']['id'])->first();
+            if(!is_null($g)){
+                $g->idLogement = $l->id;
+                $g->save();
+                return $this->redirect($response, 'viewGroup');
+            }
         }else{
             $this->flash('info', 'Vous devez être connecté');
             return $this->redirect($response, 'utilisateur.connexion.form');

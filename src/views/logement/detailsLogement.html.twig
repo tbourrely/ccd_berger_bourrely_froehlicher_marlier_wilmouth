@@ -15,6 +15,15 @@
                         <h3 style="text-align: center">Nombre de places : {{ logement.places }}</h3>
                     </div>
                 </div>
+                <div class="text-center">
+                    {% if auth %}
+                        <form method="post" action="{{ path_for('ajoutLogement') }}">
+                            {{ csrf() }}
+                            <input type="number" name="logement" value="{{ logement.id }}" hidden>
+                            <button type="submit" class="btn btn-primary">Choisir ce logement</button>
+                        </form>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
