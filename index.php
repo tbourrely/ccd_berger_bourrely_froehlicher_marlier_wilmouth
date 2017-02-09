@@ -70,7 +70,7 @@ $app->group('/utilisateur', function() {
 });
 
 $app->group('/logement',function (){
-    $this->get('/viewlist',\charly\controllers\LogementController::class.':listLogement')->setName('listlogement');
+    $this->get('/list',\charly\controllers\LogementController::class.':listLogement')->setName('listLogement');
 });
 
 /*

@@ -10,17 +10,15 @@ namespace charly\controllers;
 
 
 use charly\models\Logement;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class LogementController extends BaseController
 {
 
     public function listLogement(RequestInterface $req, ResponseInterface $resp, $args){
-        $logements=Logement::where('places','>',0)->get();
-        if (is_null($logements)) {
-            $this->flash('info', "Impossible de trouver des logements.");
-            return $this->redirect($resp, 'index');
-        } else {
-            $this->render($resp,'layout',$logements);
-        }
+        $tab["logements"]=Logement::where('places','>',0)->get();
+        $this->render($resp,'logement/listLogement',$tab);
+
     }
 }
