@@ -68,6 +68,10 @@ $app->group('/utilisateur', function() {
     $this->get('/inscription', \charly\controllers\UtilisateursController::class . ':inscriptionForm')->setName('inscription.form');
 });
 
+$app->group('/logement',function (){
+    $this->get('/viewlist',\charly\controllers\LogementController::class.':listLogement')->setName('listlogement');
+});
+
 /*
 $app->get('/', \charly\controllers\EvenementsController::class . ':index')->setName('index');
 
