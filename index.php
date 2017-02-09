@@ -112,6 +112,7 @@ $app->group('/group', function(){
     $this->get('/view', GroupeController::class . ':interfaceViewGroupe')->setName('viewGroup');
     $this->post('/validate', ValidationController::class . ':validerGroupe')->setName('validateGroup');
     $this->post('/generateURL/{id:[0-9]+}', ValidationController::class . ':genererURL')->setName('generateURL');
+    $this->post('/delete', GroupeController::class . ':supprimerUser')->setName('supprimerUser');
 
 });
 

@@ -47,6 +47,11 @@
                                     <h3>{{ i.user.nom }}</h3>
                                 </div>
                                 <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsUser',{'id' : i.user.id}) }}" role="button">voir profil</a></p>
+                                <form method="post" action="{{ path_for('supprimerUser') }}">
+                                    {{ csrf() }}
+                                    <input type="number" name="suppress" value="{{ i.user.id }}" hidden>
+                                    <p><button class="btn btn-danger btn-lg"  type="submit" role="button">supprimer</button></p>
+                                </form>
                             </div>
                         </div>
                     {% endfor %}
