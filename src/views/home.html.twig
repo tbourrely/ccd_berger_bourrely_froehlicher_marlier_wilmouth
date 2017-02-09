@@ -1,0 +1,28 @@
+{% extends "layout.html.twig" %}
+
+{% set title = "Home" %}
+
+{% block content %}
+
+    <div class="col-md-12">
+        <div class="page-header text-center">
+            <h1>Acceuil</h1>
+            <h1>Voici les meilleurs logements disponibles actuellement</h1>
+        </div>
+        <div class="row">
+            {% for l in logements %}
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail" >
+                        <img src="{{ base_url() }}/assets/img/apart/{{ l.id }}.jpg" style="height: 20em">
+                        <div class="caption">
+                            <h3>Nombre de places : {{ l.places }}</h3>
+                            <h4 style="text-align: center">Moyenne : {% if l.moy != 0 %} {{ l.moy }}{% else %}Pas de note{% endif %}</h4>
+                            <p><a class="btn btn-primary btn-lg" href="{{ path_for('detailsLogement',{'id' : l.id}) }}" role="button">voir logement</a></p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
