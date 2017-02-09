@@ -48,10 +48,6 @@ class GroupeController extends BaseController
                 $g->status ='ouvert';
                 $g->nbinvitationok = 0;
                 $g->save();
-                $contenu = new ContenuGroupe();
-                $contenu->idUser = $_SESSION['user'];
-                $contenu->idGroupe = $g->id;
-                $contenu->save();
 
                 return $this->redirect($response, 'viewGroup', ['id' => $g->id]);
 
@@ -68,7 +64,7 @@ class GroupeController extends BaseController
         $errors = [];
 
         if(isset($_SESSION['user'])){
-            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->with('proprio')->->first();
+            $g = Groupe::where('proprietaire', $_SESSION['user']['id'])->with('proprio')->first();
 
             if(!is_null($g)){
                 $tab['groupe'] = $g;
