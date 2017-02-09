@@ -36,6 +36,7 @@
                         <li role="separator" class="divider"></li>
                         {% if auth.gest == 1 %}
                             <li><a href="{{ path_for('gestion.index') }}">Administration</a></li>
+                            <li><a href="{{ path_for('gestion.logement.ajouter.form') }}">Ajouter logement</a></li>
                         {% endif %}
                         <li><a href="{{ path_for('utilisateur.deconnexion') }}">Déconnexion</a></li>
                     {% else %}
@@ -45,13 +46,6 @@
                 </ul>
             </div>
 
-            <form action="#" method="post" class="navbar-form navbar-right">
-                {{ csrf() }}
-                <div class="form-group">
-                    <input type="text" name="keyword" class="form-control" placeholder="Rechercher">
-                </div>
-                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </form>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li ><a href="{{ path_for('index') }}">Accueil</a></li>
