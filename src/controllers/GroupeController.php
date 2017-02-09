@@ -46,10 +46,6 @@ class GroupeController extends BaseController
                 $g->ouvert = 0;
                 $g->nbinvitationok = 0;
                 $g->save();
-                $contenu = new ContenuGroupe();
-                $contenu->idUser = $_SESSION['user'];
-                $contenu->idGroupe = $g->id;
-                $contenu->save();
 
                 return $this->redirect($response, 'viewGroup', ['id' => $g->id]);
 
