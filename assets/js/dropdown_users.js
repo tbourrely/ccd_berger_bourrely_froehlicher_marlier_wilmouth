@@ -78,7 +78,7 @@ function retrieveId(name){
         var element = '<div class="text-center">\
             <div class="jumbotron" >\
                 <div>\
-                    <img src="/ccd_berger_bourrely_froehlicher_marlier_wilmouth//assets/img/user/'+ data +'.jpg">\
+                    <img src="/ccd_berger_bourrely_froehlicher_marlier_wilmouth/assets/img/user/'+ data +'.jpg">\
                 </div>\
                 <div class="text-center">\
                     <h3>'+ name + '</h3>\
