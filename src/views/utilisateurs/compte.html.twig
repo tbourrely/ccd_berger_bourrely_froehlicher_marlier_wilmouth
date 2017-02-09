@@ -15,8 +15,9 @@
                             <tr>
                                 <td class="col-sm-5">
                                     <form action="{{ path_for('utilisateur.avatar') }}" method="post">
+                                        {{ csrf() }}
                                         <div class="form-group col-sm-5">
-                                            <select class="center-block" id="select" onchange="change();" name="img" style="background: #fff url('{{ base_url() }}/assets/img/user/{{ user.img }}.jpg') 0 0 no-repeat; width: 125px; height: 133px;">
+                                            <select class="center-block" id="select" onchange="change();" name="avatar" style="background: #fff url('{{ base_url() }}/assets/img/user/{{ user.img }}.jpg') 0 0 no-repeat; width: 130px; height: 133px;">
                                                 {% for i in 0..28 %}
                                                     <option value="{{ i }}" style="background: #fff url('{{ base_url() }}/assets/img/user/{{ i }}.jpg') 0 0 no-repeat; width: 111px; height: 133px; padding: 0;"></option>
                                                 {% endfor %}
