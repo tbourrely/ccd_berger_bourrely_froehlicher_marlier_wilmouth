@@ -47,6 +47,7 @@ class LogementController extends BaseController
 
 
     public function rateLogement(RequestInterface $req, ResponseInterface $resp, $args){
+
         if(isset($_SESSION['user'])){
             if(isset($args['id']) && isset($args['note'])){
                 $g = Logement::where('id',$args['id'])->first();
